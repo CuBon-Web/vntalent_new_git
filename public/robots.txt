@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /clear-cache
+Disallow: /crm
+
+Sitemap: /sitemaps.xml
