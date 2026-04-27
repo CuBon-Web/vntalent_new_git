@@ -37,6 +37,10 @@
             <img src="{{$setting->logo}}" alt="Logo {{$setting->company ?? config('app.name')}}" loading="eager" fetchpriority="high">
             </a>
             <div class="mobile-menu-right">
+               <div class="nav-btn">
+                  <a href="{{route('candidateList')}}" class="theme-btn">DS ứng viên<i
+                     class="fas fa-arrow-right"></i></a>
+               </div>
                <div class="mobile-menu-btn">
                   <button type="button" class="nav-right-link search-box-outer"><i
                      class="far fa-search"></i></button>
