@@ -27,7 +27,7 @@ let _routers = [
             {
                 name: 'home',
                 path: '/',
-                component: _import('service/list'),
+                component: _import('candidate/list'),
                 meta: {
                     requiresAuth: true,
                 }
@@ -501,6 +501,30 @@ let _routers = [
                 name: 'editBannerads',
                 path: '/bannerads/edit/:id',
                 component: _import('bannerads/edit'),
+                meta: {
+                    requiresAuth: true,
+                }
+            },
+            {
+                name: 'listHomeChoose',
+                path: '/home-choose',
+                component: _import('homechoose/list'),
+                meta: {
+                    requiresAuth: true,
+                }
+            },
+            {
+                name: 'addHomeChoose',
+                path: '/home-choose/add',
+                component: _import('homechoose/add'),
+                meta: {
+                    requiresAuth: true,
+                }
+            },
+            {
+                name: 'editHomeChoose',
+                path: '/home-choose/edit/:id',
+                component: _import('homechoose/edit'),
                 meta: {
                     requiresAuth: true,
                 }

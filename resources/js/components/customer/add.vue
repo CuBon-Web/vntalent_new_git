@@ -1,17 +1,6 @@
 <template>
-  <div class="main-panel">
-    <div class="content-wrapper">
-      <div class="page-header">
-        <h3 class="page-title">Thêm mới khách hàng</h3>
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <a href="#">Khách hàng</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">Thêm mới</li>
-          </ol>
-        </nav>
-      </div>
+  <div>
+    <div>
       <div class="row">
         <div class="col-md-2 grid-margin stretch-card"></div>
         <div class="col-md-5 grid-margin stretch-card">
@@ -29,13 +18,33 @@
                 />
               </div>
               <div class="form-group">
-                <label>Email</label>
+                <label>Email (đăng nhập website)</label>
                 <vs-input
                   type="text"
                   size="default"
                   placeholder="Email"
                   class="w-100"
                   v-model="objData.email"
+                />
+              </div>
+              <div class="form-group">
+                <label>Mật khẩu</label>
+                <vs-input
+                  type="password"
+                  size="default"
+                  placeholder="Tối thiểu 8 ký tự"
+                  class="w-100"
+                  v-model="objData.password"
+                />
+              </div>
+              <div class="form-group">
+                <label>Nhập lại mật khẩu</label>
+                <vs-input
+                  type="password"
+                  size="default"
+                  placeholder="Nhập lại mật khẩu"
+                  class="w-100"
+                  v-model="objData.password_confirmation"
                 />
               </div>
               <div class="form-group">
@@ -99,7 +108,8 @@ export default {
         address: "",
         phone: "",
         note: "",
-        status: ""
+        password: "",
+        password_confirmation: "",
       }
     };
   },
@@ -121,18 +131,28 @@ export default {
       this.$v.$touch();
       if (this.$v.$invalid) {
         return;
-      } else {
-        this.loadings(true);
-        this.addCustomer(this.objData)
-          .then(response => {
-            this.loadings(false);
-            this.$success('Thêm khách hàng thành công');
-          })
-          .catch(error => {
-            this.loadings(false);
-            this.$error('Thêm khách hàng thất bại');
-          });
       }
+      if (!this.objData.password || this.objData.password !== this.objData.password_confirmation) {
+        this.$error('Mật khẩu và nhập lại mật khẩu phải khớp, tối thiểu 8 ký tự');
+        return;
+      }
+      this.loadings(true);
+      this.addCustomer(this.objData)
+        .then(() => {
+          this.loadings(false);
+          this.$success('Tạo tài khoản thành công. Khách có thể đăng nhập website bằng email và mật khẩu vừa đặt.');
+          this.$router.push({ name: 'customer' });
+        })
+        .catch((error) => {
+          this.loadings(false);
+          const err = error.response && error.response.data && error.response.data.errors;
+          if (err) {
+            const first = Object.keys(err)[0];
+            this.$error(err[first][0]);
+          } else {
+            this.$error('Thêm thất bại');
+          }
+        });
     }
   },
   mounted() {

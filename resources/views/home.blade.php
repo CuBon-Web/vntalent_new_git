@@ -204,7 +204,10 @@
                       <span class="site-title-tagline"><i class="far fa-school"></i>Về chúng tôi</span>
                       <h2 class="site-title">{{$setting->company}}</h2>
                       <div class="skill-text line_6">{!!$gioithieu->content!!}</div>
-                      <a href="{{route('aboutUs')}}" class="theme-btn mt-5">Xem thêm<i class="fas fa-arrow-right"></i></a>
+                      <div class="d-flex justify-content-end gap-2">
+                      <a href="#contactus" class="theme-btn mt-5">Liên Hệ<i class="fas fa-arrow-right"></i></a>
+                      <a href="{{route('aboutUs')}}" class="theme-btn2 mt-5 btn-outline-white">Xem thêm<i class="fas fa-arrow-right"></i></a>
+                      </div>
                   </div>
               </div>
                   <div class="col-lg-6">
@@ -274,6 +277,7 @@
    <!-- service area end -->
    <!-- team-area -->
    
+  @if (count($videos) > 0)
   <div class="team-area py-40 video-review-section">
       <div class="container">
          <div class="row">
@@ -334,9 +338,9 @@
                   </p>
               </div>
           </div>
-          <div class="row g-4 mt-4 wow fadeInUp" data-wow-delay=".25s">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-5 g-4 mt-4 wow fadeInUp" data-wow-delay=".25s">
             @foreach ($bannerads as $key => $item)
-              <div class="col-md-6 col-lg-3">
+              <div class="col">
                   <div class="service-item">
                       <span class="count">{{$key+1}}</span>
                       <div class="service-icon">
@@ -356,6 +360,7 @@
           </div>
       </div>
   </div>
+  @endif
    <!-- counter area end -->
    <!-- choose area -->
    <div class="choose-area pt-40 pb-80">
@@ -367,62 +372,26 @@
                      <span class="site-title-tagline"><i class="fas fa-school"></i> Why Choose Us</span>
                      <h2 class="site-title">Tại sao nên chọn <span>VNTALENTHUB</span></h2>
                      <p>
-                        VNTALENTHUB mang lại giải pháp du học uy tín và chuyên nghiệp nhất cho khách hàng. Chúng tôi sẽ đồng hành cùng các bạn trên chặng đường phía trước với giấc mơ du học trong tầm tay, mọi thủ tục và chi phí sẽ được tối ưu nhất.
+                        VNTALENTHUB mang lại giải pháp du học nghề và lao động quốc tế uy tín và chuyên nghiệp nhất cho khách hàng. Chúng tôi sẽ đồng hành cùng các bạn trên chặng đường phía trước với giấc mơ xuất ngoại trong tầm tay, mọi thủ tục và chi phí sẽ được tối ưu nhất.
                      </p>
                   </div>
                   <div class="choose-content-wrap">
+                     @php
+                        $lazyPh = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC';
+                     @endphp
+                     @forelse ($homeChooseItems as $chooseItem)
                      <div class="choose-item">
                         <div class="choose-item-icon">
-                           <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" data-src="{{url('frontend/img/support.svg')}}" alt="image">
+                           <img class="lazy" src="{{ $lazyPh }}" data-src="{{ $chooseItem->icon }}" alt="{{ e($chooseItem->title) }}" loading="lazy">
                         </div>
                         <div class="choose-item-info">
-                           <h4>TƯ VẤN MIỄN PHÍ</h4>
-                           <p>Nhận lộ trình du học từ A đến Z MIỄN PHÍ cùng Chuyên gia dày dặn kinh nghiệm
-                           </p>
+                           <h4>{{ $chooseItem->title }}</h4>
+                           <p>{{ $chooseItem->description }}</p>
                         </div>
                      </div>
-                     <div class="choose-item">
-                        <div class="choose-item-icon">
-                           <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" data-src="{{url('frontend/img/support.svg')}}" alt="image">
-                        </div>
-                        <div class="choose-item-info">
-                           <h4>HỖ TRỢ NHANH CHÓNG, CHÍNH XÁC, THUẬN TIỆN</h4>
-                           <p>Xây dựng lộ trình du học NHANH CHÓNG - CHÍNH XÁC - PHÙ HỢP cho từng học viên
-                           </p>
-                        </div>
-                     </div>
-                     <div class="choose-item">
-                        <div class="choose-item-icon">
-                           <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" data-src="{{url('frontend/img/certified.svg')}}" alt="image">
-                        </div>
-                        <div class="choose-item-info">
-                           <h4>KHO HỌC BỔNG 100% ĐỘC QUYỀN</h4>
-                           <p> Cập nhật liên tục HỌC BỔNG 100%
-                           </p>
-                        </div>
-                     </div>
-                     <div class="choose-item">
-                        <div class="choose-item-icon">
-                           <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" data-src="{{url('frontend/img/team.svg')}}" alt="image">
-                        </div>
-                        <div class="choose-item-info">
-                           <h4>REVIEW HỒ SƠ 1:1 CÙNG CHUYÊN GIA</h4>
-                           <p> Chuyên gia hàng đầu tại VNTALENTHUB giàu KINH NGHIỆM - CHUYÊN NGHIỆP review & hướng dẫn chuẩn bị hồ sơ du học
-
-                           </p>
-                        </div>
-                     </div>
-                     <div class="choose-item">
-                        <div class="choose-item-icon">
-                           <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" data-src="{{url('frontend/img/support.svg.svg')}}" alt="image">
-                        </div>
-                        <div class="choose-item-info">
-                           <h4>HỖ TRỢ TOÀN DIỆN TỪ A-Z</h4>
-                           <p> Tư vấn chi tiết mọi bước từ APPLY đến HOÀN THIỆN thủ tục 
-
-                           </p>
-                        </div>
-                     </div>
+                     @empty
+                     <p class="text-muted small">Nội dung mục &quot;Tại sao chọn&quot; đang được cập nhật.</p>
+                     @endforelse
                   </div>
                </div>
             </div>
@@ -438,6 +407,7 @@
    </div>
    <!-- choose area end -->
    <!-- testimonial-area -->
+   @if (count($reviewcus) > 0)
    <div class="testimonial-area ts-bg pt-80 pb-60">
       <div class="container">
          <div class="row">
@@ -486,6 +456,7 @@
          </div>
       </div>
    </div>
+   @endif
    <!-- testimonial-area end -->
    <!-- faq area -->
    <div class="faq-area pt-80">
@@ -538,7 +509,7 @@
    </div>
    <!-- faq area end -->
    <!-- quote area -->
-   <div class="quote-area qa-negative py-80">
+   <div class="quote-area qa-negative py-80" id="contactus">
       <div class="container">
          <div class="quote-content">
             <div class="row g-4">
@@ -573,15 +544,15 @@
                                  </div>
                               </div>
                            </div>
-                           <div class="col-md-12">
+                           {{-- <div class="col-md-12">
                               <div class="form-group">
                                  <div class="form-icon">
                                     <i class="far fa-envelope"></i>
                                     <input type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}">
                                  </div>
                               </div>
-                           </div>
-                           <div class="col-md-12">
+                           </div> --}}
+                           {{-- <div class="col-md-12">
                               <div class="form-group">
                                  <div class="form-icon">
                                     <i class="far fa-truck"></i>
@@ -593,7 +564,7 @@
                                     </select>
                                  </div>
                               </div>
-                           </div>
+                           </div> --}}
                            <div class="col-md-12 mt-2">
                               <button type="submit" class="theme-btn"><span class="loader ml-15 spin-icon"></span> Gửi yêu cầu</button>
                            </div>
@@ -612,6 +583,7 @@
    </div>
    <!-- quote area end -->
    <!-- blog-area -->
+   @if (count($hotnews) > 0)
    <div class="blog-area pb-80">
       <div class="container">
          <div class="row">
@@ -656,8 +628,10 @@
          </div>
       </div>
    </div>
+   @endif
    <!-- blog-area end -->
    <!-- partner area -->
+   @if(count($partner) > 0)
    <div class="partner-area bg pt-60 pb-60">
       <div class="container pb-60">
          <div class="row">
@@ -675,6 +649,7 @@
          </div>
       </div>
    </div>
+   @endif
    <!-- partner area end -->
 </main>
 @endsection

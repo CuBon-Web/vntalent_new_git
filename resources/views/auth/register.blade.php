@@ -1,9 +1,9 @@
 @extends('layouts.main.master')
 @section('title')
-Đăng ký tài khoản tại VNTALENTHUB
+Registrieren Sie ein Konto bei VNTALENTHUB
 @endsection
 @section('description')
-Đăng ký tài khoản tại VNTALENTHUB
+Registrieren Sie ein Konto bei VNTALENTHUB
 @endsection
 @section('image')
 {{url(''.$banner[0]->image)}}
@@ -14,7 +14,7 @@
 <main class="main">
 
    <!-- breadcrumb -->
-   <div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/01.jpg)">
+   {{-- <div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/01.jpg)">
        <div class="container">
            <h2 class="breadcrumb-title">Đăng ký</h2>
            <ul class="breadcrumb-menu">
@@ -22,7 +22,7 @@
                <li class="active">Đăng ký</li>
            </ul>
        </div>
-   </div>
+   </div> --}}
    <!-- breadcrumb end -->
 
 
@@ -33,14 +33,14 @@
                <div class="auth-form">
                    <div class="auth-header">
                        <img src="{{$setting->logo}}" alt="">
-                       <p>Đăng ký tài khoản tại VNTALENTHUB</p>
+                       <p>Registrieren Sie ein Konto bei VNTALENTHUB</p>
                    </div>
                    <form action="{{route('postRegister')}}" method="post">
                        @csrf
                        <div class="form-group">
                            <div class="form-icon">
                                <i class="far fa-user"></i>
-                               <input type="text" class="form-control" placeholder="Họ và tên" name="name" required>
+                               <input type="text" class="form-control" placeholder="Vorname und Nachname" name="name" required>
                            </div>
                        </div>
                        <div class="form-group">
@@ -55,13 +55,13 @@
                        <div class="form-group">
                            <div class="form-icon">
                                <i class="far fa-phone"></i>
-                               <input type="tel" class="form-control" placeholder="Số điện thoại" name="phone" required>
+                               <input type="tel" class="form-control" placeholder="Telefonnummer" name="phone" required>
                            </div>
                        </div>
                        <div class="form-group">
                            <div class="form-icon">
                                <i class="far fa-key"></i>
-                               <input type="password" id="password" class="form-control" placeholder="Nhập mật khẩu" name="password" required>
+                               <input type="password" id="password" class="form-control" placeholder="Passwort" name="password" required>
                                @if($errors->has('password'))
                                <span class="text-danger">{{ $errors->first('password') }}</span>
                                @endif
@@ -77,7 +77,7 @@
                            </div>
                      </div>   
                        <div class="auth-btn">
-                           <button type="submit" class="theme-btn"><span class="far fa-sign-in"></span> Đăng ký</button>
+                           <button type="submit" class="theme-btn"><span class="far fa-sign-in"></span> Registrieren</button>
                        </div>
                    </form>
                </div>

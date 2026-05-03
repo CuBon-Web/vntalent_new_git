@@ -16,7 +16,11 @@
             </div>
             <div class="header-top-right">
                <div class="header-top-list">
+                  @if(Auth::guard('customer')->check())
+                  <a href="{{route('logout')}}"><i class="far fa-sign-out"></i> Logout</a>
+                  @else
                   <a href="{{route('login')}}"><i class="far fa-sign-in"></i> Login</a>
+                  @endif
               </div>
                <div class="header-top-social">
                   <span>Theo dõi: </span>
@@ -115,13 +119,15 @@
                         
                      </li>
                      @endforeach
-                     <li class="nav-item dropdown">
+                     {{-- @if (count($videos) > 0 && count($reviewcus) > 0) --}}
+                     {{-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Học Viên</a>
                         <ul class="dropdown-menu fade-down">
                            <li><a class="dropdown-item" href="{{route('videoHocVien')}}">Video học viên</a></li>
                            <li><a class="dropdown-item" href="{{route('feedbackHocVien')}}">Feedback học viên</a></li>
                         </ul>
-                     </li>
+                     </li> --}}
+                     {{-- @endif --}}
                      <li class="nav-item"><a class="nav-link" href="{{route('lienHe')}}">Liên Hệ</a></li>
                   </ul>
                   <!-- nav-right -->

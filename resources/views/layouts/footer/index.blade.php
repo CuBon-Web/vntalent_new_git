@@ -32,7 +32,7 @@
                   <div class="footer-widget-box">
                      <h4 class="footer-widget-title">Thông tin</h4>
                      <ul class="footer-contact">
-                        <li>
+                        {{-- <li>
                            <div class="icon">
                               <i class="far fa-location-dot"></i>
                            </div>
@@ -40,7 +40,7 @@
                               <h6>Địa chỉ</h6>
                               <p>{{$setting->address1}}</p>
                            </div>
-                        </li>
+                        </li> --}}
                         <li>
                            <div class="icon">
                               <i class="far fa-phone"></i>

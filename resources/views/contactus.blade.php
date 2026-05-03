@@ -52,7 +52,7 @@ Liên hệ với chúng tôi
       <div class="container">
           <div class="contact-content">
               <div class="row">
-                  <div class="col-md-3">
+                  {{-- <div class="col-md-3">
                       <div class="contact-info">
                           <div class="icon">
                               <i class="fal fa-map-location-dot"></i>
@@ -62,8 +62,8 @@ Liên hệ với chúng tôi
                               <p>{{$setting->address1}}</p>
                           </div>
                       </div>
-                  </div>
-                  <div class="col-md-3">
+                  </div> --}}
+                  <div class="col-md-4">
                       <div class="contact-info">
                           <div class="icon">
                               <i class="fal fa-phone-volume"></i>
@@ -74,7 +74,7 @@ Liên hệ với chúng tôi
                           </div>
                       </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                       <div class="contact-info">
                           <div class="icon">
                               <i class="fal fa-envelopes"></i>
@@ -85,7 +85,7 @@ Liên hệ với chúng tôi
                           </div>
                       </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                       <div class="contact-info">
                           <div class="icon">
                               <i class="fal fa-alarm-clock"></i>

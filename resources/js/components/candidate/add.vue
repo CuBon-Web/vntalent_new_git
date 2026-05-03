@@ -13,7 +13,10 @@
               </div>
               <div class="col-md-4 form-group">
                 <label>Level tiếng Đức</label>
-                <vs-input type="text" size="default" placeholder="B1 / B2 / C1" class="w-100" v-model="objData.german_level" />
+                <vs-select v-model="objData.german_level" class="w-100">
+                  <vs-select-item value="" text="-- Chọn mức --" />
+                  <vs-select-item v-for="lvl in germanLevels" :key="lvl" :value="lvl" :text="lvl" />
+                </vs-select>
               </div>
             </div>
             <div class="form-group">
@@ -35,13 +38,21 @@
               </vs-select>
             </div>
             <div class="row">
-              <div class="col-md-6 form-group">
+              <div class="col-md-4 form-group">
                 <label>Tuổi</label>
                 <vs-input type="number" size="default" placeholder="Ví dụ: 20" class="w-100" v-model="objData.age" />
               </div>
-              <div class="col-md-6 form-group">
+              <div class="col-md-4 form-group">
                 <label>Ngày sinh</label>
                 <input type="date" class="w-100 inputlang" v-model="objData.birth_date" />
+              </div>
+              <div class="col-md-4 form-group">
+                <label>Giới tính</label>
+                <vs-select v-model="objData.gender" class="w-100">
+                  <vs-select-item value="" text="-- Chọn --" />
+                  <vs-select-item value="1" text="Nam" />
+                  <vs-select-item value="2" text="Nữ" />
+                </vs-select>
               </div>
             </div>
 
@@ -93,6 +104,7 @@ export default {
         age: "",
         birth_date: "",
         german_level: "",
+        gender: "",
         avatar: "",
         graduation_image: "",
         short_bio: "",
@@ -100,6 +112,7 @@ export default {
         status: 1,
       },
       categoryOptions: [],
+      germanLevels: ["A1", "A2", "B1", "B2", "C1", "C2"],
     };
   },
   components: {
@@ -117,6 +130,7 @@ export default {
       if (this.objData.name == "") this.errors.push("Tên ứng viên không được để trống");
       if (this.objData.candidate_category_id == "") this.errors.push("Vui lòng chọn ngành nghề");
       if (this.objData.german_level == "") this.errors.push("Level tiếng Đức không được để trống");
+      if (this.objData.gender === "" || this.objData.gender === null) this.errors.push("Vui lòng chọn giới tính");
       if (this.objData.avatar == "") this.errors.push("Vui lòng chọn ảnh ứng viên");
       if (this.objData.graduation_image == "") this.errors.push("Vui lòng chọn ảnh bằng tốt nghiệp");
       if (this.objData.short_bio == "") this.errors.push("Short BIO không được để trống");

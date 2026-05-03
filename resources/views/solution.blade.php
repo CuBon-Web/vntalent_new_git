@@ -95,10 +95,10 @@ $img = json_decode($solution->images);
 							   <i class="energia-phone-Icon"></i>
 							   <p>SĐT: <a href="tel:{{$setting->phone1}}">{{$setting->phone1}}</a></p>
 							</li>
-							<li class="contact-info">
+							{{-- <li class="contact-info">
 							   <i class="energia-location-Icon"></i>
 							   <p>Địa chỉ: {{$setting->address1}}</p>
-							</li>
+							</li> --}}
 							<li class="contact-info">
 							   <i class="fa fa-envelope"></i>
 							   <p>Email: {{$setting->email}}</p>

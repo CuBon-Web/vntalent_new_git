@@ -41,6 +41,7 @@ Route::group(['namespace'=>'Client','middleware' => ['checkLanguage']], function
 
     Route::post('filter.html','ProductController@filterProduct')->name('filterProduct');
     Route::get('ung-vien.html', 'PageController@candidateList')->name('candidateList')->middleware('CheckAuthClient::class');
+    Route::get('ung-vien/data', 'PageController@candidateListData')->name('candidateList.data')->middleware('CheckAuthClient::class');
     Route::get('du-hoc/ve-nuoc-{slug}.html','PageController@aboutNation')->name('aboutNation');
     Route::get('du-hoc-{slug}.html','PageController@duhoc')->name('duhoc');
     Route::get('tin-tuc-du-hoc-{slug}.html','PageController@tintucduhoc')->name('tintucduhoc');

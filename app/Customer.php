@@ -12,7 +12,11 @@ class Customer extends Authenticatable
     use Notifiable;
     protected $table = 'customer';
     protected $fillable = [
-        'id', 'name', 'email', 'address', 'phone', 'created_at', 'updated_at','status','google_id','password','facebook_id'
+        'id', 'name', 'email', 'address', 'phone', 'note', 'created_at', 'updated_at', 'status', 'google_id', 'password', 'facebook_id',
+    ];
+
+    protected $hidden = [
+        'password', 'remember_token',
     ];
     public function receivesBroadcastNotificationsOn()
     {

@@ -15,7 +15,7 @@
 <main class="main">
 
    <!-- breadcrumb -->
-   <div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/01.jpg)">
+   {{-- <div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/01.jpg)">
        <div class="container">
            <h2 class="breadcrumb-title">Đăng nhập</h2>
            <ul class="breadcrumb-menu">
@@ -23,7 +23,7 @@
                <li class="active">Đăng nhập</li>
            </ul>
        </div>
-   </div>
+   </div> --}}
    <!-- breadcrumb end -->
 
 
@@ -34,7 +34,7 @@
                <div class="auth-form">
                    <div class="auth-header">
                        <img src="{{$setting->logo}}" alt="">
-                       <p>Đăng nhập với tài khoản của bạn</p>
+                       <p>Melden Sie sich mit Ihrem Konto an</p>
                    </div>
                    <form action="{{route('postlogin')}}" method="post">
                        @csrf
@@ -47,20 +47,20 @@
                        <div class="form-group">
                            <div class="form-icon">
                                <i class="far fa-key"></i>
-                               <input type="password" id="password" class="form-control" placeholder="Mật khẩu" name="password" required>
+                               <input type="password" id="password" class="form-control" placeholder="Passwort" name="password" required>
                                <span class="password-view"><i class="far fa-eye-slash"></i></span>
                            </div>
                        </div>
                        <div class="auth-group">
                            <div class="form-check">
                                <a href="{{route('register')}}" class="form-check-label">
-                                   Đăng ký tài khoản
+                                 Konto erstellen
                                </a>
                            </div>
-                           <a href="{{ route('password.forgot') }}" class="auth-group-link">Quên mật khẩu?</a>
+                           <a href="{{ route('password.forgot') }}" class="auth-group-link">Passwort vergessen?</a>
                        </div>
                        <div class="auth-btn">
-                           <button type="submit" class="theme-btn"><span class="far fa-sign-in"></span> Đăng nhập</button>
+                           <button type="submit" class="theme-btn"><span class="far fa-sign-in"></span> Anmelden</button>
                        </div>
                    </form>
                </div>

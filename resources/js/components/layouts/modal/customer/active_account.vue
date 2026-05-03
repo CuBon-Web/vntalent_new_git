@@ -46,16 +46,18 @@ export default {
   data() {
     return {
       objData: {
-        password: "",
-        rePassword: "",
-        notify:0,
-        email:this.email
+        password: '',
+        rePassword: '',
+        notify: 0,
       },
       img:'',
       submitted: false
     };
   },
-  props:['email'],
+  props: {
+    email: { type: String, default: '' },
+    customerId: { type: [String, Number], default: null },
+  },
   validations: {
     objData: {
       password: { required },
@@ -73,21 +75,28 @@ export default {
       if (this.$v.$invalid) {
         return;
       } else {
-        this.activeCustomer(this.objData)
-          .then(response => {
-            // this.listCate()
-            this.$success('Thêm mới danh mục thành công');
-            this.$emit("closePopup", false);
+        this.activeCustomer({
+          id: this.customerId,
+          email: this.email,
+          password: this.objData.password,
+          password_confirmation: this.objData.rePassword,
+        })
+          .then(() => {
+            this.$success('Đã lưu mật khẩu. Tài khoản có thể đăng nhập website.');
+            this.$emit('closePopup', false);
           })
-          .catch(error => {
-            this.$error(Object.values(error.response.data.errors)[0][0]);
-            this.$emit("closePopup", false);
+          .catch((error) => {
+            const errs = error.response && error.response.data && error.response.data.errors;
+            if (errs) {
+              const k = Object.keys(errs)[0];
+              this.$error(errs[k][0]);
+            } else {
+              this.$error('Thất bại');
+            }
+            this.$emit('closePopup', false);
           });
       }
     },
   },
-  mounted(){
-    console.log(this.email);
-  }
 };
 </script>

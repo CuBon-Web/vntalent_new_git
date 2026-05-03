@@ -21,8 +21,9 @@ class AuthController extends Controller
     public function postLogin(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        if(Auth::guard('customer')->attempt($credentials)){
-            return redirect('/')->with('success', 'Đăng nhập thành công');
+        $credentials['status'] = 0;
+        if (Auth::guard('customer')->attempt($credentials)) {
+            return redirect()->route('candidateList')->with('success', 'Đăng nhập thành công');
         }else{
             return back()->with('error', 'Đăng nhập thất bại vui lòng kiểm tra thông tin')->withInput();
         }

@@ -79,36 +79,86 @@ class PageController extends Controller
         ])->orderBy('id','DESC')->limit(7)->get(['id','title','slug','created_at','image']);
         return view('menu',$data);
     }
-    public function candidateList(Request $request){
-        $categoryId = $request->get('category');
+    public function candidateList(Request $request)
+    {
+        $data['candidateCategory'] = CandidateCategory::where('status', 1)->orderBy('name', 'ASC')->get(['id', 'name']);
 
+        return view('candidateList', $data);
+    }
+
+    /**
+     * JSON danh sách ứng viên (lọc + phân trang) cho trang ung-vien.html.
+     */
+    public function candidateListData(Request $request)
+    {
+        $paginator = $this->candidateFilteredQuery($request)->paginate(9)->appends($request->query());
+
+        return response()->json([
+            'data' => $paginator->items(),
+            'pagination' => [
+                'current_page' => $paginator->currentPage(),
+                'last_page' => $paginator->lastPage(),
+                'per_page' => $paginator->perPage(),
+                'total' => $paginator->total(),
+                'from' => $paginator->firstItem(),
+                'to' => $paginator->lastItem(),
+            ],
+            'links' => [
+                'prev_url' => $paginator->previousPageUrl(),
+                'next_url' => $paginator->nextPageUrl(),
+            ],
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function candidateFilteredQuery(Request $request)
+    {
         $query = Candidate::leftJoin('candidate_categories', 'candidate_categories.id', '=', 'candidates.candidate_category_id')
-            ->where(['candidates.status' => 1]);
+            ->where('candidates.status', 1);
 
-        if (!empty($categoryId)) {
-            $query->where('candidates.candidate_category_id', $categoryId);
+        $categories = array_values(array_filter((array) $request->input('category', [])));
+        if (count($categories)) {
+            $query->whereIn('candidates.candidate_category_id', $categories);
         }
 
-        $data['candidate'] = $query->orderBy('candidates.id', 'DESC')
+        $ageRange = $request->input('age_range');
+        if ($ageRange === '18-22') {
+            $query->whereBetween('candidates.age', [18, 22]);
+        } elseif ($ageRange === '23-27') {
+            $query->whereBetween('candidates.age', [23, 27]);
+        } elseif ($ageRange === '28-32') {
+            $query->whereBetween('candidates.age', [28, 32]);
+        } elseif ($ageRange === '32-36') {
+            $query->whereBetween('candidates.age', [32, 36]);
+        } elseif ($ageRange === '37+') {
+            $query->where('candidates.age', '>=', 37);
+        }
+
+        $levels = array_values(array_filter((array) $request->input('german_level', [])));
+        if (count($levels)) {
+            $query->whereIn('candidates.german_level', $levels);
+        }
+
+        if ($request->filled('gender') && in_array((string) $request->gender, ['1', '2'], true)) {
+            $query->where('candidates.gender', (int) $request->gender);
+        }
+
+        return $query->orderBy('candidates.id', 'DESC')
             ->select([
                 'candidates.id',
                 'candidates.name',
                 'candidates.age',
                 'candidates.birth_date',
                 'candidates.german_level',
+                'candidates.gender',
                 'candidates.avatar',
                 'candidates.graduation_image',
                 'candidates.short_bio',
                 'candidates.video_url',
                 'candidate_categories.name as category_name',
-            ])
-            ->paginate(9)
-            ->appends($request->query());
-
-        $data['candidateCategory'] = CandidateCategory::where('status', 1)->orderBy('name', 'ASC')->get(['id', 'name']);
-        $data['selectedCategory'] = $categoryId;
-
-        return view('candidateList',$data);
+            ]);
     }
     public function quickview($id){
         $data['product'] = Product::with('cate')->where('id',$id)->first();

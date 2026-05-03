@@ -56,3 +56,11 @@ export const EditProfile  = ({commit},opt) => {
         })
     });
 };
+
+export const deleteCustomer = ({ commit }, opt) => {
+    return new Promise((resolve, reject) => {
+        HTTP.get('/api/customer/delete/' + opt.id)
+            .then((response) => resolve(response.data))
+            .catch((error) => reject(error));
+    });
+};

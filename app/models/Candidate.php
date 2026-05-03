@@ -27,6 +27,7 @@ class Candidate extends Model
         $query->candidate_category_id = $request->candidate_category_id;
         $query->birth_date = $request->birth_date;
         $query->age = $request->age;
+        $query->gender = $request->gender !== null && $request->gender !== '' ? (int) $request->gender : null;
         $query->german_level = $request->german_level;
         $query->avatar = $request->avatar;
         $query->graduation_image = $request->graduation_image;

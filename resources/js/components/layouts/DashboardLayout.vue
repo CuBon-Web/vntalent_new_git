@@ -126,6 +126,36 @@ export default {
         //   ],
         // },
         {
+          icon: "mdi mdi-newspaper menu-icon",
+          name: "Ứng viên",
+          route_name: "",
+          sub: [
+            {
+              name: "Danh sách",
+              path: "/candidate",
+            },
+            {
+              name: "Nghành nghề",
+              path: "/candidate/category",
+            }
+          ],
+        },
+        {
+          icon: "mdi mdi-account-key menu-icon",
+          name: "Tài khoản website",
+          route_name: "",
+          sub: [
+            {
+              name: "Danh sách",
+              path: "/customer",
+            },
+            {
+              name: "Tạo tài khoản",
+              path: "/customer/add",
+            },
+          ],
+        },
+        {
           icon: "mdi mdi-crosshairs-gps menu-icon",
           name: "Du học nghề Đức",
           route_name: "",
@@ -203,21 +233,7 @@ export default {
             },
           ],
         },
-        {
-          icon: "mdi mdi-newspaper menu-icon",
-          name: "Ứng viên",
-          route_name: "",
-          sub: [
-            {
-              name: "Danh sách",
-              path: "/candidate",
-            },
-            {
-              name: "Nghành nghề",
-              path: "/candidate/category",
-            }
-          ],
-        },
+        
         {
           icon: "mdi mdi-file-image menu-icon",
           name: "Website",
@@ -246,6 +262,10 @@ export default {
             {
               name: "Quy trình hồ sơ",
               path: "/bannerads",
+            },
+            {
+              name: "Tại sao chọn (trang chủ)",
+              path: "/home-choose",
             },
             {
               name: "Cài đặt chung",

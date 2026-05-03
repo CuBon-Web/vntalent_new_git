@@ -1,14 +1,13 @@
 <template>
   <!-- partial -->
-  <div class="main-panel">
-      <h3 class="page-title">Quản lý khách hàng</h3>
-      <div class="row">
+  <div>
+    <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title" v-if="list.length > 0">Danh sách khách hàng</h4>
+              <h4 class="card-title" v-if="list.length > 0">Danh sách tài khoản</h4>
               <router-link class="mb-0 font-weight-light" v-if="list.length > 0" :to="{name:'customerAdd'}" style="float:right;">
-                <vs-button color="success" type="filled">Thêm khách hàng</vs-button>
+                <vs-button color="success" type="filled">Tạo tài khoản</vs-button>
               </router-link>
               <div class="row" v-if="list.length == 0">
                 <div class="col-md-2"></div>
@@ -17,7 +16,7 @@
                     <h5 class="mr-2 mb-2">Khách hàng của bạn</h5>
                     <p class="mb-0 font-weight-light">Khi khách hàng tạo đơn hàng,<br> bạn có thể tìm kiếm thông tin chi tiết của họ và lịch sử <br> thanh toán tại đây.</p>
                     <router-link class="mb-0 font-weight-light" :to="{name:'customerAdd'}">
-                      <vs-button color="success" type="filled">Thêm khách hàng</vs-button>
+                      <vs-button color="success" type="filled">Tạo tài khoản</vs-button>
                     </router-link>
                   </div>
                 </div>
@@ -35,14 +34,12 @@
               />
               <vs-table max-items="5" pagination :data="list" v-if="list.length > 0">
                 <template slot="thead">
-                  <vs-th>ID</vs-th>
-                  <vs-th>Thông tin</vs-th>
-                  <vs-th>Email</vs-th>
+                  <vs-th>#</vs-th>
+                  <vs-th>Họ tên</vs-th>
+                  <vs-th>Email đăng nhập</vs-th>
                   <vs-th>Điện thoại</vs-th>
-                  <vs-th>Đơn hàng</vs-th>
-                  <vs-th>Đơn hàng gần nhất</vs-th>
-                  <vs-th>Tổng chi tiêu</vs-th>
-                  <vs-th>Action</vs-th>
+                  <vs-th>Đăng nhập web</vs-th>
+                  <vs-th>Thao tác</vs-th>
                 </template>
                 <template slot-scope="{data}">
                   <vs-tr :key="indextr" v-for="(tr, indextr) in data">
@@ -50,9 +47,7 @@
                     <vs-td :data="tr.name">{{tr.name}}</vs-td>
                     <vs-td :data="tr.email">{{tr.email}}</vs-td>
                     <vs-td :data="tr.phone">{{tr.phone}}</vs-td>
-                    <vs-td :data="tr.phone"></vs-td>
-                    <vs-td :data="tr.phone"></vs-td>
-                    <vs-td :data="tr.phone"></vs-td>
+                    <vs-td :data="tr.status">{{ tr.status == 0 ? 'Đang bật' : 'Đang khóa' }}</vs-td>
                     <vs-td :data="tr.id">
                       <router-link :to="{name:'customerEdit',params:{id_customer:tr.id}}">
                         <vs-button
@@ -71,6 +66,7 @@
           </div>
         </div>
       </div>
+      
   </div>
 </template>
 
@@ -90,7 +86,7 @@ export default {
     
   },
   methods: {
-    ...mapActions(["listCustomer","destroyCate", "loadings"]),
+    ...mapActions(['listCustomer', 'deleteCustomer', 'loadings']),
     listCustomers() {
       this.loadings(true);
       this.listCustomer({ keyword: this.keyword })
@@ -112,14 +108,18 @@ export default {
           });
       }, 800);
     },
-    destroy(){
+    destroy() {
       this.loadings(true);
-      this.destroyCate(this.id_item)
-      .then(response => {
-        this.listCustomer()
-        this.loadings(false);
-        this.$success('Xóa danh mục thành công');
-      });
+      this.deleteCustomer({ id: this.id_item })
+        .then(() => {
+          this.listCustomers();
+          this.loadings(false);
+          this.$success('Đã xóa tài khoản');
+        })
+        .catch(() => {
+          this.loadings(false);
+          this.$error('Xóa thất bại');
+        });
     },
     confirmDestroy(id){
       this.id_item = id;
@@ -127,7 +127,7 @@ export default {
         type:'confirm',
         color: 'danger',
         title: `Bạn có chắc chắn`,
-        text: 'Xóa danh mục này',
+        text: 'Xóa tài khoản này? Khách không còn đăng nhập được.',
         accept:this.destroy
       })
     }

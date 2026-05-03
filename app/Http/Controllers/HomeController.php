@@ -13,6 +13,7 @@ use App\models\PageContent;
 use App\models\Project;
 use App\models\website\Banner;
 use App\models\BannerAds;
+use App\models\HomeChooseItem;
 use App\models\website\Video;
 // use  App\models\website\Founder;
 use App\models\website\AlbumAffter;
@@ -26,6 +27,10 @@ class HomeController extends Controller
             ['status','=',1]
         ])->orderBy('id','DESC')->limit(6)->get(['id','title','slug','created_at','image','description']);
         $data['bannerads'] = BannerAds::where(['status'=>1])->get();
+        $data['homeChooseItems'] = HomeChooseItem::where('status', 1)
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get();
         $data['bannermobile'] = Banner::where(['status'=>2])->get(['id','image','link','status']);
         $data['gioithieu'] = PageContent::where(['slug'=>'gioi-thieu','language'=>'vi'])->first(['id','title','content','image']);
         $data['partner'] = Partner::where(['status'=>1])->get();

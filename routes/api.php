@@ -145,6 +145,11 @@ Route::group(['namespace'=>'Api','middleware'=>'auth:api'],function(){
 	Route::get('editAdsbanner/{id}','BannerAdsController@edit');
 	Route::get('deleteAdsbanner/{id}','BannerAdsController@delete');
 
+	Route::post('listHomeChoose', 'HomeChooseItemController@list');
+	Route::post('createHomeChoose', 'HomeChooseItemController@create');
+	Route::get('editHomeChoose/{id}', 'HomeChooseItemController@edit');
+	Route::get('deleteHomeChoose/{id}', 'HomeChooseItemController@delete');
+
 	Route::group(['prefix'=>'reviewCus','namspace'=>"reviewCus"], function(){
 		Route::post('list','ReviewCusController@list');
 		Route::post('create','ReviewCusController@create');
@@ -208,6 +213,7 @@ Route::group(['namespace'=>'Api','middleware'=>'auth:api'],function(){
 		Route::post('list','CustomerController@list');
 		Route::post('add','CustomerController@create');
 		Route::get('edit/{id}','CustomerController@getEdit');
+		Route::get('delete/{id}','CustomerController@delete');
 		Route::post('active','CustomerController@activeCustomer');
 		Route::post('changeStatus','CustomerController@changeStatus');
 		Route::post('edit-profile','CustomerController@postEdit');
