@@ -9,7 +9,7 @@
          $seoImage = trim($__env->yieldContent('image', $setting->logo ?? url('frontend/img/logo.png')));
          $canonicalUrl = url()->current();
          $currentPath = request()->path();
-         $noindexPaths = ['dang-nhap.html', 'dang-ky.html', 'account/orders', 'gio-hang.html', 'thanh-toan.html'];
+         $noindexPaths = ['login.html', 'register.html', 'account/orders', 'gio-hang.html', 'thanh-toan.html'];
          $seoRobots = in_array($currentPath, $noindexPaths, true) ? 'noindex, nofollow' : 'index, follow';
          $organizationSchema = [
             '@context' => 'https://schema.org',

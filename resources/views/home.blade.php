@@ -323,45 +323,8 @@
    </div>
    <!-- team-area end -->
    <!-- counter area -->
-   <div class="service-area sa-bg pt-80 pb-80">
-      <div class="container">
-          <div class="row g-4 align-items-center wow fadeInDown" data-wow-delay=".25s">
-              <div class="col-lg-6">
-                  <div class="site-heading mb-0">
-                      <span class="site-title-tagline"><i class="far fa-truck-container"></i> Step by step</span>
-                      <h2 class="site-title text-white">Quy trình hồ sơ</h2>
-                  </div>
-              </div>
-              <div class="col-lg-6">
-                  <p class="text-white">
-                      Quy trình hồ sơ của chúng tôi được thiết kế để phù hợp với nhu cầu và năng lực của từng học viên, đảm bảo quý khách có thể đạt được các mới trong quá trình học tập và phát triển.
-                  </p>
-              </div>
-          </div>
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-5 g-4 mt-4 wow fadeInUp" data-wow-delay=".25s">
-            @foreach ($bannerads as $key => $item)
-              <div class="col">
-                  <div class="service-item">
-                      <span class="count">{{$key+1}}</span>
-                      <div class="service-icon">
-                          <img src="{{$item->image}}" alt="{{$item->name}}" loading="lazy">
-                      </div>
-                      <div class="service-content">
-                          <h4 class="service-title">
-                              {{$item->name}}
-                          </h4>
-                          <p class="service-text">
-                              {!!($item->description)!!}
-                          </p>
-                      </div>
-                  </div>
-              </div>  
-              @endforeach
-          </div>
-      </div>
-  </div>
+   
   @endif
-   <!-- counter area end -->
    <!-- choose area -->
    <div class="choose-area pt-40 pb-80">
       <div class="container">
@@ -406,6 +369,45 @@
       </div>
    </div>
    <!-- choose area end -->
+  <div class="service-area sa-bg pt-80 pb-80">
+   <div class="container">
+       <div class="row g-4 align-items-center wow fadeInDown" data-wow-delay=".25s">
+           <div class="col-lg-6">
+               <div class="site-heading mb-0">
+                   <span class="site-title-tagline"><i class="far fa-truck-container"></i> Step by step</span>
+                   <h2 class="site-title text-white">Quy trình hồ sơ</h2>
+               </div>
+           </div>
+           <div class="col-lg-6">
+               <p class="text-white">
+                   Quy trình hồ sơ của chúng tôi được thiết kế để phù hợp với nhu cầu và năng lực của từng học viên, đảm bảo quý khách có thể đạt được các mới trong quá trình học tập và phát triển.
+               </p>
+           </div>
+       </div>
+       <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-5 g-4 mt-4 wow fadeInUp" data-wow-delay=".25s">
+         @foreach ($bannerads as $key => $item)
+           <div class="col">
+               <div class="service-item">
+                   <span class="count">{{$key+1}}</span>
+                   <div class="service-icon">
+                       <img src="{{$item->image}}" alt="{{$item->name}}" loading="lazy">
+                   </div>
+                   <div class="service-content">
+                       <h4 class="service-title">
+                           {{$item->name}}
+                       </h4>
+                       <p class="service-text">
+                           {!!($item->description)!!}
+                       </p>
+                   </div>
+               </div>
+           </div>  
+           @endforeach
+       </div>
+   </div>
+</div>
+   <!-- counter area end -->
+  
    <!-- testimonial-area -->
    @if (count($reviewcus) > 0)
    <div class="testimonial-area ts-bg pt-80 pb-60">
@@ -544,14 +546,14 @@
                                  </div>
                               </div>
                            </div>
-                           {{-- <div class="col-md-12">
+                           <div class="col-md-12">
                               <div class="form-group">
                                  <div class="form-icon">
                                     <i class="far fa-envelope"></i>
                                     <input type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}">
                                  </div>
                               </div>
-                           </div> --}}
+                           </div>
                            {{-- <div class="col-md-12">
                               <div class="form-group">
                                  <div class="form-icon">

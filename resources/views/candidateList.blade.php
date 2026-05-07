@@ -331,16 +331,34 @@ Danh sách ứng viên
         font-weight: 700;
     }
     .candidate-modal .profile-bio {
-        margin-top: 14px;
+        margin-top: 12px;
         padding: 14px;
         border-radius: 10px;
-        background: #fff;
-        border: 1px solid #edf1f7;
+        background: #f8fbff;
+        border: 1px solid #e8eef5;
     }
     .candidate-modal .profile-bio strong {
         display: inline-block;
         margin-bottom: 8px;
         color: #0f2740;
+    }
+    .candidate-modal .modal-section {
+        margin-top: 14px;
+    }
+    .candidate-modal .modal-video-frame {
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #000;
+    }
+    .candidate-modal .modal-video-frame iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
     }
     .candidate-filter-wrap {
         background: linear-gradient(180deg, #f8fbff 0%, #fff 40%);
@@ -421,6 +439,10 @@ Danh sách ứng viên
         background: #fff;
         color: #0f2740;
     }
+    .candidate-filter-wrap .filter-select-multiple {
+        height: 44px;
+        overflow: hidden;
+    }
     .candidate-filter-wrap .filter-chips {
         display: flex;
         flex-wrap: wrap;
@@ -479,9 +501,9 @@ Danh sách ứng viên
         }
 
         function genderLabel(g) {
-            if (g == 1 || g === '1') return 'Nam';
-            if (g == 2 || g === '2') return 'Nữ';
-            return 'Đang cập nhật';
+            if (g == 1 || g === '1') return 'Männlich';
+            if (g == 2 || g === '2') return 'Weiblich';
+            return 'Aktualisierung';
         }
 
         /** Một dòng meta có icon (valueEscaped đã escape nếu cần) */
@@ -504,6 +526,30 @@ Danh sách ứng viên
             if (m) {
                 return String(parseInt(m[1], 10)).padStart(2, '0') + '/' + String(parseInt(m[2], 10)).padStart(2, '0') + '/' + m[3];
             }
+            return s;
+        }
+
+        function getYoutubeVideoId(urlStr) {
+            try {
+                var u = new URL(urlStr);
+                var host = (u.hostname || '').replace(/^www\./, '').toLowerCase();
+                if (host === 'youtube.com' || host === 'm.youtube.com') {
+                    if (u.pathname === '/watch') return u.searchParams.get('v');
+                    if (u.pathname.indexOf('/shorts/') === 0) return u.pathname.split('/')[2] || '';
+                    if (u.pathname.indexOf('/embed/') === 0) return u.pathname.split('/')[2] || '';
+                }
+                if (host === 'youtu.be') return u.pathname.replace(/^\/+/, '').split('/')[0] || '';
+            } catch (e) {
+                return '';
+            }
+            return '';
+        }
+
+        function normalizeVideoEmbedUrl(urlStr) {
+            if (!urlStr) return '';
+            var s = String(urlStr).trim();
+            var videoId = getYoutubeVideoId(s);
+            if (videoId) return 'https://www.youtube.com/embed/' + encodeURIComponent(videoId);
             return s;
         }
 
@@ -619,7 +665,7 @@ Danh sách ứng viên
         function buildQueryParams(page) {
             var params = new URLSearchParams();
             params.set('page', page || 1);
-            checkedValues('.js-filter-category:checked').forEach(function (v) {
+            checkedValues('.js-filter-category option:checked').forEach(function (v) {
                 if (v) params.append('category[]', v);
             });
             if (filterAge && filterAge.value) params.set('age_range', filterAge.value);
@@ -633,18 +679,18 @@ Danh sách ứng viên
         function renderPagination(meta, links) {
             if (!paginationEl) return;
             if (!meta || meta.last_page <= 1) {
-                paginationEl.innerHTML = meta && meta.total ? '<p class="text-center text-muted small">Tổng ' + meta.total + ' ứng viên</p>' : '';
+                paginationEl.innerHTML = meta && meta.total ? '<p class="text-center text-muted small">Gesamt ' + meta.total + ' Bewerber</p>' : '';
                 return;
             }
             var html = '<nav class="candidate-pagination-nav"><ul class="pagination justify-content-center flex-wrap align-items-center">';
             if (links.prev_url) {
-                html += '<li class="page-item"><a class="page-link js-candidate-page" href="#" data-page="' + (meta.current_page - 1) + '">Trước</a></li>';
+                html += '<li class="page-item"><a class="page-link js-candidate-page" href="#" data-page="' + (meta.current_page - 1) + '">Vorherige</a></li>';
             }
-            html += '<li class="page-item disabled"><span class="page-link">Trang ' + meta.current_page + ' / ' + meta.last_page + '</span></li>';
+            html += '<li class="page-item disabled"><span class="page-link">Seite ' + meta.current_page + ' / ' + meta.last_page + '</span></li>';
             if (links.next_url) {
-                html += '<li class="page-item"><a class="page-link js-candidate-page" href="#" data-page="' + (meta.current_page + 1) + '">Sau</a></li>';
+                html += '<li class="page-item"><a class="page-link js-candidate-page" href="#" data-page="' + (meta.current_page + 1) + '">Nächste</a></li>';
             }
-            html += '</ul></nav><p class="text-center text-muted small mt-2">Hiển thị ' + (meta.from || 0) + '–' + (meta.to || 0) + ' / ' + meta.total + ' ứng viên</p>';
+            html += '</ul></nav><p class="text-center text-muted small mt-2">Anzeigen ' + (meta.from || 0) + '–' + (meta.to || 0) + ' / ' + meta.total + ' Bewerber</p>';
             paginationEl.innerHTML = html;
         }
 
@@ -652,20 +698,22 @@ Danh sách ứng viên
             var name = escapeHtml(item.name);
             var level = escapeHtml(item.german_level || 'Chưa có level');
             var cate = escapeHtml(item.category_name || 'Chưa phân ngành');
-            var age = item.age ? (escapeHtml(String(item.age)) + ' tuổi') : 'Đang cập nhật';
+            var age = item.age ? (escapeHtml(String(item.age)) + ' Alter') : 'Aktualisierung';
             var birthFmt = formatBirthDateDMY(item.birth_date);
-            var birth = birthFmt == null ? 'Đang cập nhật' : escapeHtml(birthFmt);
+            var birth = birthFmt == null ? 'Aktualisierung' : escapeHtml(birthFmt);
             var gen = genderLabel(item.gender);
             var avatar = escapeHtml(item.avatar || '');
             var grad = item.graduation_image ? escapeHtml(item.graduation_image) : '';
-            var video = item.video_url ? escapeHtml(item.video_url) : '';
+            var rawVideo = item.video_url ? String(item.video_url).trim() : '';
+            var video = rawVideo ? escapeHtml(rawVideo) : '';
+            var videoEmbed = rawVideo ? escapeHtml(normalizeVideoEmbedUrl(rawVideo)) : '';
             var bio = item.short_bio || '';
             var id = item.id;
 
             var html = '';
             
             html += '<div class="col-md-6 col-lg-4 mb-4">';
-            html += '<div class="candidate-card js-candidate-card wow fadeInUp" data-wow-delay=".25s" data-bs-target="#candidateModal' + id + '" title="Xem hồ sơ chi tiết">';
+            html += '<div class="candidate-card js-candidate-card wow fadeInUp" data-wow-delay=".25s" data-bs-target="#candidateModal' + id + '" title="Profil anschauen">';
             html += '<div class="team-img"><img class="candidate-thumb" src="' + avatar + '" alt="' + name + '"></div>';
             html += '<div class="candidate-body">';
             html += '<h4 class="candidate-name">' + name + '</h4>';
@@ -674,49 +722,55 @@ Danh sách ứng viên
             // html += '<span class="candidate-badge">' + cate + '</span>';
             // html += '</div>';
             html += '<ul class="candidate-meta">';
-            html += detailMetaItem('fas fa-briefcase', 'Ngành nghề', cate);
-            html += detailMetaItem('fas fa-language', 'Trình độ tiếng Đức', level);
-            html += detailMetaItem('fas fa-venus-mars', 'Giới tính', escapeHtml(gen));
-            html += detailMetaItem('fas fa-hourglass-half', 'Tuổi', age);
-            html += detailMetaItem('far fa-calendar', 'Ngày sinh', birth);
+            html += detailMetaItem('fas fa-briefcase', 'Beruf', cate);
+            html += detailMetaItem('fas fa-language', 'Deutschkenntnisse', level);
+            html += detailMetaItem('fas fa-venus-mars', 'Geschlecht', escapeHtml(gen));
+            html += detailMetaItem('fas fa-hourglass-half', 'Alter', age);
+            html += detailMetaItem('far fa-calendar', 'Geburtstag', birth);
             html += '</ul>';
-            html += '<button type="button" class="btn-view-more js-open-candidate-modal" data-bs-toggle="modal" data-bs-target="#candidateModal' + id + '">Xem hồ sơ chi tiết</button>';
+            html += '<button type="button" class="btn-view-more js-open-candidate-modal" data-bs-toggle="modal" data-bs-target="#candidateModal' + id + '">Profil anschauen</button>';
             html += '</div></div></div>';
 
             html += '<div class="modal fade candidate-modal" id="candidateModal' + id + '" tabindex="-1" aria-hidden="true">';
             html += '<div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">';
             html += '<div class="modal-header"><h5 class="modal-title">' + name + '</h5>';
             html += '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>';
-            html += '<div class="modal-body"><div class="row">';
-            html += '<div class="col-md-5 mb-3"><img class="modal-img" src="' + avatar + '" alt="' + name + '"></div>';
+            html += '<div class="modal-body"><div class="row g-3 align-items-start">';
+            html += '<div class="col-md-5"><img class="modal-img" src="' + avatar + '" alt="' + name + '"></div>';
             html += '<div class="col-md-7"><ul class="modal-meta">';
-            html += detailMetaItem('fas fa-venus-mars', 'Giới tính', escapeHtml(gen));
-            html += detailMetaItem('fas fa-hourglass-half', 'Tuổi', age);
-            html += detailMetaItem('far fa-calendar', 'Ngày sinh', birth);
-            html += detailMetaItem('fas fa-language', 'Trình độ tiếng Đức', level);
-            html += detailMetaItem('fas fa-briefcase', 'Ngành nghề', cate);
+            html += detailMetaItem('fas fa-venus-mars', 'Geschlecht', escapeHtml(gen));
+            html += detailMetaItem('fas fa-hourglass-half', 'Alter', age);
+            html += detailMetaItem('far fa-calendar', 'Geburtstag', birth);
+            html += detailMetaItem('fas fa-language', 'Deutschkenntnisse', level);
+            html += detailMetaItem('fas fa-briefcase', 'Beruf', cate);
             html += '</ul>';
-            html += '<div class="profile-bio"><strong>Short BIO:</strong><div class="js-candidate-bio" data-candidate-bio="' + id + '"></div></div>';
-            if (video) {
-                html += '<div class="mt-3"><a href="' + video + '" target="_blank" rel="noopener noreferrer" class="theme-btn">Xem video</a></div>';
-            }
+            
             html += '</div></div>';
+            html += '<div class="profile-bio"><strong>Short BIO:</strong><div class="js-candidate-bio" data-candidate-bio="' + id + '"></div></div>';
+            if (videoEmbed) {
+                html += '<div class="modal-section">';
+                html += '<div class="modal-video-frame">';
+                html += '<iframe src="' + videoEmbed + '" title="Video ứng viên" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+                html += '</div>';
+                html += '<a href="' + video + '" target="_blank" rel="noopener noreferrer" class="d-inline-block mt-2 small">Video in neuem Tab öffnen</a>';
+                html += '</div>';
+            }
             if (grad) {
-                html += '<div class="graduate-cert-section">';
-                html += '<div class="graduate-cert-head"><i class="fas fa-award" aria-hidden="true"></i><span>Bằng cấp & chứng chỉ</span></div>';
-                html += '<button type="button" class="graduate-cert-preview js-open-grad-lightbox" data-grad-overlay="gradOverlay' + id + '" aria-label="Mở xem ảnh bằng cấp toàn màn hình">';
+                html += '<div class="graduate-cert-section modal-section">';
+                html += '<div class="graduate-cert-head"><i class="fas fa-award" aria-hidden="true"></i><span>Abschlüsse & Berufsqualifikations</span></div>';
+                html += '<button type="button" class="graduate-cert-preview js-open-grad-lightbox" data-grad-overlay="gradOverlay' + id + '" aria-label="Originalbild ansehen">';
                 html += '<span class="graduate-cert-preview-frame">';
                 html += '<img class="graduate-cert-thumb" src="' + grad + '" alt="">';
                 html += '<span class="graduate-cert-shade" aria-hidden="true"></span>';
-                html += '<span class="graduate-cert-zoom"><i class="fas fa-search-plus" aria-hidden="true"></i> Bấm xem ảnh gốc</span>';
+                html += '<span class="graduate-cert-zoom"><i class="fas fa-search-plus" aria-hidden="true"></i> Originalbild ansehen</span>';
                 html += '</span></button>';
                 html += '</div>';
             }
             html += '</div></div></div></div>';
             if (grad) {
-                html += '<div class="grad-fullscreen-overlay" id="gradOverlay' + id + '" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Ảnh bằng cấp">';
-                html += '<button type="button" class="grad-fullscreen-close js-close-grad-lightbox" aria-label="Đóng">&times;</button>';
-                html += '<div class="grad-fullscreen-inner"><img src="' + grad + '" alt="Bằng cấp chứng chỉ"></div>';
+                html += '<div class="grad-fullscreen-overlay" id="gradOverlay' + id + '" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Originalbild">';
+                html += '<button type="button" class="grad-fullscreen-close js-close-grad-lightbox" aria-label="Schließen">&times;</button>';
+                html += '<div class="grad-fullscreen-inner"><img src="' + grad + '" alt="Originalbild"></div>';
                 html += '</div>';
             }
 
@@ -741,7 +795,7 @@ Danh sách ứng viên
                         bios.push({ id: rendered.id, html: rendered.bio });
                     });
                     if (!json.data || !json.data.length) {
-                        if (grid) grid.innerHTML = '<div class="col-12 text-center py-5 text-muted">Không có ứng viên phù hợp bộ lọc.</div>';
+                        if (grid) grid.innerHTML = '<div class="col-12 text-center py-5 text-muted">Es gibt keine entsprechenden Bewerber</div>';
                     } else if (grid) {
                         grid.innerHTML = parts.join('');
                         bios.forEach(function (b) {
@@ -753,7 +807,7 @@ Danh sách ứng viên
                 })
                 .catch(function () {
                     if (loadingEl) loadingEl.style.display = 'none';
-                    if (grid) grid.innerHTML = '<div class="col-12 text-center py-5 text-danger">Không tải được dữ liệu. Vui lòng thử lại.</div>';
+                    if (grid) grid.innerHTML = '<div class="col-12 text-center py-5 text-danger">Es gibt keine entsprechenden Bewerber</div>';
                     if (paginationEl) paginationEl.innerHTML = '';
                 });
         }
@@ -775,7 +829,10 @@ Danh sách ứng viên
         var resetBtn = document.getElementById('candidate-filter-reset');
         if (resetBtn) resetBtn.addEventListener('click', function (e) {
             e.preventDefault();
-            document.querySelectorAll('.js-filter-category:checked, .js-filter-german:checked').forEach(function (el) {
+            document.querySelectorAll('.js-filter-category option:checked').forEach(function (el) {
+                el.selected = false;
+            });
+            document.querySelectorAll('.js-filter-german:checked').forEach(function (el) {
                 el.checked = false;
             });
             if (filterAge) filterAge.value = '';
@@ -804,10 +861,10 @@ Danh sách ứng viên
     <!-- breadcrumb -->
     <div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/01.jpg)">
         <div class="container">
-            <h2 class="breadcrumb-title">Danh sách ứng viên</h2>
+            <h2 class="breadcrumb-title">Liste der Bewerber</h2>
             <ul class="breadcrumb-menu">
-                <li><a href="{{route('home')}}">Trang chủ</a></li>
-                <li class="active">Danh sách ứng viên</li>
+                <li><a href="{{route('home')}}">Home</a></li>
+                <li class="active">Liste der Bewerber</li>
             </ul>
         </div>
     </div>
@@ -819,27 +876,23 @@ Danh sách ứng viên
             <div class="candidate-filter-wrap">
                 <div class="filter-toolbar-head">
                     <div>
-                        <div class="filter-title">Lọc nhanh ứng viên</div>
-                        <p class="filter-hint">Chọn chip (nhiều ngành / nhiều cấp độ được) hoặc tuổi, giới tính — danh sách cập nhật tự động sau vài giây.</p>
+                        <div class="filter-title">Bewerberfilter</div>
                     </div>
-                    <button type="button" id="candidate-filter-reset" class="filter-reset-btn">Đặt lại</button>
+                    <button type="button" id="candidate-filter-reset" class="filter-reset-btn">Filter</button>
                 </div>
                 <div class="candidate-filter-toolbar-grid">
                     <div class="filter-block">
-                        <span class="filter-block-label">Ngành nghề</span>
-                        <div class="filter-chips" role="group" aria-label="Lọc ngành nghề">
+                        <span class="filter-block-label">Beruf</span>
+                        <select id="filter-category" name="category[]" class="filter-select filter-select-multiple js-filter-category" multiple size="1" title="Halten Sie die Strg-Taste (oder Cmd) gedrückt, um mehrere Berufsbereiche auszuwählen" aria-label="Filter Berufsbereiche">
                             @foreach($candidateCategory as $cate)
-                                <label class="filter-chip">
-                                    <input type="checkbox" class="js-filter-category" value="{{ $cate->id }}">
-                                    <span>{{ $cate->name }}</span>
-                                </label>
+                                <option value="{{ $cate->id }}">{{ $cate->name }}</option>
                             @endforeach
-                        </div>
+                        </select>
                     </div>
                     <div class="filter-block">
-                        <span class="filter-block-label">Độ tuổi</span>
+                        <span class="filter-block-label">Alter</span>
                         <select id="filter-age" name="age_range" class="filter-select">
-                            <option value="">Mọi độ tuổi</option>
+                            <option value="">Alle Altersgruppen</option>
                             <option value="18-22">18–22</option>
                             <option value="23-27">23–27</option>
                             <option value="28-32">28–32</option>
@@ -848,8 +901,8 @@ Danh sách ứng viên
                         </select>
                     </div>
                     <div class="filter-block">
-                        <span class="filter-block-label">Tiếng Đức</span>
-                        <div class="filter-chips" role="group" aria-label="Lọc trình độ tiếng Đức">
+                        <span class="filter-block-label">Deutschkenntnisse</span>
+                        <div class="filter-chips" role="group" aria-label="Filter Deutschkenntnisse">
                             @foreach(['A1','A2','B1','B2','C1','C2'] as $lvl)
                                 <label class="filter-chip">
                                     <input type="checkbox" class="js-filter-german" value="{{ $lvl }}">
@@ -859,17 +912,17 @@ Danh sách ứng viên
                         </div>
                     </div>
                     <div class="filter-block">
-                        <span class="filter-block-label">Giới tính</span>
+                        <span class="filter-block-label">Geschlecht</span>
                         <select id="filter-gender" name="gender" class="filter-select">
-                            <option value="">Tất cả</option>
-                            <option value="1">Nam</option>
-                            <option value="2">Nữ</option>
+                            <option value="">Alle</option>
+                            <option value="1">Männlich</option>
+                            <option value="2">Weiblich</option>
                         </select>
                     </div>
                 </div>
             </div>
 
-            <div id="candidate-loading" class="text-center py-4 text-muted">Đang tải danh sách…</div>
+            <div id="candidate-loading" class="text-center py-4 text-muted">Liste der Bewerber wird geladen…</div>
             <div id="candidate-grid" class="row g-4"></div>
             <div id="candidate-pagination" class="mt-4"></div>
         </div>

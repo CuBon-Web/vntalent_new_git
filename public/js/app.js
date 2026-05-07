@@ -10601,28 +10601,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -10721,10 +10699,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
 //
 //
 //
@@ -318104,9 +318078,7 @@ var render = function() {
       "div",
       [
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-2 grid-margin stretch-card" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-5 grid-margin stretch-card" }, [
+          _c("div", { staticClass: "col-md-12 grid-margin stretch-card" }, [
             _c("div", { staticClass: "card" }, [
               _c("div", { staticClass: "card-body" }, [
                 _c(
@@ -318224,7 +318196,7 @@ var render = function() {
                       attrs: {
                         type: "text",
                         size: "default",
-                        placeholder: "Tên bài viết"
+                        placeholder: "phone"
                       },
                       model: {
                         value: _vm.objData.phone,
@@ -318260,60 +318232,7 @@ var render = function() {
                 )
               ])
             ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3 grid-margin stretch-card" }, [
-            _c("div", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-body" }, [
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", [_vm._v("Ghi chú")]),
-                    _vm._v(" "),
-                    _c("vs-textarea", {
-                      staticClass: "w-100",
-                      model: {
-                        value: _vm.objData.note,
-                        callback: function($$v) {
-                          _vm.$set(_vm.objData, "note", $$v)
-                        },
-                        expression: "objData.note"
-                      }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", [_vm._v("Tag")]),
-                    _vm._v(" "),
-                    _c("vs-input", {
-                      staticClass: "w-100",
-                      attrs: {
-                        type: "text",
-                        size: "default",
-                        placeholder: "Tên bài viết"
-                      },
-                      model: {
-                        value: _vm.objData.title,
-                        callback: function($$v) {
-                          _vm.$set(_vm.objData, "title", $$v)
-                        },
-                        expression: "objData.title"
-                      }
-                    })
-                  ],
-                  1
-                )
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-2 grid-margin stretch-card" })
+          ])
         ]),
         _vm._v(" "),
         _c(
@@ -318434,31 +318353,7 @@ var render = function() {
                     ],
                     1
                   )
-                : _vm._e(),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "form-group" },
-                [
-                  _c("label", [_vm._v("Ghi chú")]),
-                  _vm._v(" "),
-                  _c("vs-textarea", {
-                    staticClass: "w-100",
-                    attrs: {
-                      height: "100",
-                      placeholder: "Nhập ghi chú về khách hàng"
-                    },
-                    model: {
-                      value: _vm.objData.note,
-                      callback: function($$v) {
-                        _vm.$set(_vm.objData, "note", $$v)
-                      },
-                      expression: "objData.note"
-                    }
-                  })
-                ],
-                1
-              )
+                : _vm._e()
             ])
           ])
         ]),

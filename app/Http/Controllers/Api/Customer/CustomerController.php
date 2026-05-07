@@ -32,9 +32,8 @@ class CustomerController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:191',
             'email' => 'required|email|max:191|unique:customer,email',
-            'phone' => 'required|string|max:50',
+            'phone' => 'nullable|string|max:50',
             'address' => 'nullable|string',
-            'note' => 'nullable|string',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
@@ -47,7 +46,6 @@ class CustomerController extends Controller
         $data->phone = $request->phone;
         $data->email = $request->email;
         $data->address = $request->address ?? '';
-        $data->note = $request->note ?? '';
         $data->password = bcrypt($request->password);
         $data->status = 0;
         $data->save();
@@ -138,7 +136,7 @@ class CustomerController extends Controller
         $rules = [
             'name' => 'required|string|max:191',
             'email' => 'required|email|max:191|unique:customer,email,'.$data->id,
-            'phone' => 'required|string|max:50',
+            'phone' => 'string|max:50',
             'address' => 'nullable|string',
         ];
 

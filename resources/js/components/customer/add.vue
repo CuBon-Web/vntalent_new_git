@@ -2,8 +2,7 @@
   <div>
     <div>
       <div class="row">
-        <div class="col-md-2 grid-margin stretch-card"></div>
-        <div class="col-md-5 grid-margin stretch-card">
+        <div class="col-md-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
               <div class="form-group">
@@ -52,7 +51,7 @@
                 <vs-input
                   type="text"
                   size="default"
-                  placeholder="Tên bài viết"
+                  placeholder="phone"
                   class="w-100"
                   v-model="objData.phone"
                 />
@@ -64,27 +63,6 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3 grid-margin stretch-card">
-          <div class="card">
-            <div class="card-body">
-              <div class="form-group">
-                <label>Ghi chú</label>
-                <vs-textarea v-model="objData.note" class="w-100" />
-              </div>
-              <div class="form-group">
-                <label>Tag</label>
-                <vs-input
-                  type="text"
-                  size="default"
-                  placeholder="Tên bài viết"
-                  class="w-100"
-                  v-model="objData.title"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2 grid-margin stretch-card"></div>
       </div>
       <vs-button color="primary" @click="addCustomers" :disabled="$v.$invalid">Thêm mới</vs-button>
     </div>

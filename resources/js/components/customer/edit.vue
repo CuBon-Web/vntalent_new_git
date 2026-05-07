@@ -13,10 +13,6 @@
                   <vs-button @click="confirm()" color="primary" type="border" icon="voice_over_off" v-if="objData.email != null" style="margin-right:5px;">Vô hiệu hóa tài khoản</vs-button>
                   <vs-button color="primary" type="border" icon="cached" @click="popupReset=true" v-if="objData.email != null">Đặt lại mật khẩu</vs-button>
                 </label>
-              <div class="form-group">
-                <label>Ghi chú</label>
-                <vs-textarea v-model="objData.note" class="w-100" height="100" placeholder="Nhập ghi chú về khách hàng" />
-              </div>
             </div>
           </div>
         </div>

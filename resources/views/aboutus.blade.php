@@ -39,6 +39,7 @@ Giới thiệu về {{$setting->company}}
          </div>
       </div>
    </div>
+   @if($reviewcus->count() > 0)
    <div class="testimonial-area ts-bg pt-80 pb-60">
       <div class="container">
          <div class="row">
@@ -87,68 +88,8 @@ Giới thiệu về {{$setting->company}}
          </div>
       </div>
    </div>
-   <div class="team-area py-40">
-      <div class="container">
-         <div class="row">
-            <div class="col-lg-6 mx-auto">
-               <div class="site-heading text-center wow fadeInDown" data-wow-delay=".25s">
-                  <span class="site-title-tagline"><i class="fas fa-school"></i> Our Team</span>
-                  <h2 class="site-title">Đội Ngũ <span>Nhân Sự</span></h2>
-                  <div class="heading-divider"></div>
-               </div>
-            </div>
-         </div>
-         <div class="row">
-            <div class="portfolio-slider owl-carousel">
-               @foreach ($founder as $item)
-               <div class="team-item wow fadeInUp" data-wow-delay=".25s">
-                  <div class="team-img">
-                     <img src="{{$item->image}}" alt="thumb">
-                     <div class="team-social-wrap">
-                        <div class="team-social-btn">
-                           <button type="button"><i class="far fa-share-alt"></i></button>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="team-content">
-                     <h4><a href="javascript:;">{{$item->name}}</a></h4>
-                     <span>{{$item->position}}</span>
-                  </div>
-               </div>
-               @endforeach
-               
-            </div>
-         </div>
-      </div>
-   </div>
-   <div class="team-area py-40">
-      <div class="container">
-         <div class="row">
-            <div class="col-lg-6 mx-auto">
-               <div class="site-heading text-center wow fadeInDown" data-wow-delay=".25s">
-                  <h2 class="site-title">Giấy phép hoạt động </h2>
-                  <div class="heading-divider"></div>
-               </div>
-            </div>
-         </div>
-         <div class="row">
-            <div class="portfolio-slider owl-carousel">
-               @foreach ($giayphep as $item)
-               <div class="team-item wow fadeInUp" data-wow-delay=".25s">
-                  <div class="team-img">
-                     <img src="{{$item->image}}" alt="thumb">
-                  </div>
-                  <div class="team-content">
-                     <h4><a href="javascript:;">{{$item->name}}</a></h4>
-                     <span>{{$item->position}}</span>
-                  </div>
-               </div>
-               @endforeach
-               
-            </div>
-         </div>
-      </div>
-   </div>
+   @endif
+
    <div class="partner-area bg pt-60 pb-60">
       <div class="container">
          <div class="partner-wrapper partner-slider owl-carousel owl-theme">
