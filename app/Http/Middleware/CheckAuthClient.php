@@ -18,7 +18,7 @@ class CheckAuthClient
         if (Auth::guard('customer')->check()) {
             return $next($request);
         } else {
-            return redirect("/login.html")->with('error','Vui lòng đăng nhập');
+            return redirect("/login.html")->with('error','Bitte melden Sie sich an');
         }
     }
 }
