@@ -704,7 +704,7 @@ Danh sách ứng viên
                 if (v) params.append('category[]', v);
             });
             if (filterAge && filterAge.value) params.set('age_range', filterAge.value);
-            checkedValues('.js-filter-german:checked').forEach(function (v) {
+            checkedValues('.js-filter-german option:checked').forEach(function (v) {
                 if (v) params.append('german_level[]', v);
             });
             if (filterGender && filterGender.value) params.set('gender', filterGender.value);
@@ -892,8 +892,8 @@ Danh sách ứng viên
             document.querySelectorAll('.js-filter-category option:checked').forEach(function (el) {
                 el.selected = false;
             });
-            document.querySelectorAll('.js-filter-german:checked').forEach(function (el) {
-                el.checked = false;
+            document.querySelectorAll('.js-filter-german option:checked').forEach(function (el) {
+                el.selected = false;
             });
             if (filterAge) filterAge.value = '';
             if (filterGender) filterGender.value = '';
@@ -962,14 +962,11 @@ Danh sách ứng viên
                     </div>
                     <div class="filter-block">
                         <span class="filter-block-label">Deutschkenntnisse</span>
-                        <div class="filter-chips" role="group" aria-label="Filter Deutschkenntnisse">
+                        <select id="filter-german" name="german_level[]" class="filter-select filter-select-multiple js-filter-german" multiple size="1" title="Halten Sie die Strg-Taste (oder Cmd) gedrückt, um mehrere Niveaus auszuwählen" aria-label="Filter Deutschkenntnisse">
                             @foreach(['Keine Deutschkenntnisse','A1','A2','B1','B2','C1','C2'] as $lvl)
-                                <label class="filter-chip">
-                                    <input type="checkbox" class="js-filter-german" value="{{ $lvl }}">
-                                    <span>{{ $lvl }}</span>
-                                </label>
+                                <option value="{{ $lvl }}">{{ $lvl }}</option>
                             @endforeach
-                        </div>
+                        </select>
                     </div>
                     <div class="filter-block">
                         <span class="filter-block-label">Geschlecht</span>
