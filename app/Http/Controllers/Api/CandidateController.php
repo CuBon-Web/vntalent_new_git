@@ -97,6 +97,21 @@ class CandidateController extends Controller
                     \File::delete($degreeFile);
                 }
             }
+            if ($query->other_documents) {
+                $decoded = json_decode($query->other_documents, true);
+                if (is_array($decoded)) {
+                    foreach ($decoded as $docUrl) {
+                        if (!is_string($docUrl) || $docUrl === '') {
+                            continue;
+                        }
+                        $path = str_replace('http://localhost:8080', '', $docUrl);
+                        $file = public_path() . $path;
+                        if ($path !== '' && file_exists(public_path() . $path)) {
+                            \File::delete($file);
+                        }
+                    }
+                }
+            }
             $query->delete();
         }
         return response()->json(['message' => 'Delete Success'], 200);

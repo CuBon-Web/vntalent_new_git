@@ -58,13 +58,17 @@
 
             <h5 class="section-title mt-3">Hồ sơ ứng viên</h5>
             <div class="row">
-              <div class="col-md-6 form-group">
+              <div class="col-md-4 form-group">
                 <label>Ảnh ứng viên</label>
                 <image-upload v-model="objData.avatar" type="avatar" :title="objData.name"></image-upload>
               </div>
-              <div class="col-md-6 form-group">
-                <label>Bằng tốt nghiệp (ảnh)</label>
+              <div class="col-md-4 form-group">
+                <label>Chứng chỉ - bằng cấp</label>
                 <image-upload v-model="objData.graduation_image" type="avatar" :title="objData.name"></image-upload>
+              </div>
+              <div class="col-md-4 form-group">
+                <label>Giấy tờ khác (ảnh, có thể chọn nhiều)</label>
+                <ImageMulti v-model="objData.other_documents" :title="objData.name || 'ung-vien'" />
               </div>
             </div>
 
@@ -94,6 +98,7 @@
 <script>
 import { mapActions } from "vuex";
 import TinyMce from "../_common/tinymce";
+import ImageMulti from "../_common/upload_image_multi";
 export default {
   data() {
     return {
@@ -107,16 +112,18 @@ export default {
         gender: "",
         avatar: "",
         graduation_image: "",
+        other_documents: [],
         short_bio: "",
         video_url: "",
         status: 1,
       },
       categoryOptions: [],
-      germanLevels: ["A1", "A2", "B1", "B2", "C1", "C2"],
+      germanLevels: ["Keine Deutschkenntnisse","A1", "A2", "B1", "B2", "C1", "C2"],
     };
   },
   components: {
     TinyMce,
+    ImageMulti,
   },
   methods: {
     ...mapActions(["addCandidate", "loadings", "listCandidateCategory"]),
@@ -131,10 +138,10 @@ export default {
       if (this.objData.candidate_category_id == "") this.errors.push("Vui lòng chọn ngành nghề");
       if (this.objData.german_level == "") this.errors.push("Level tiếng Đức không được để trống");
       if (this.objData.gender === "" || this.objData.gender === null) this.errors.push("Vui lòng chọn giới tính");
-      if (this.objData.avatar == "") this.errors.push("Vui lòng chọn ảnh ứng viên");
+      // if (this.objData.avatar == "") this.errors.push("Vui lòng chọn ảnh ứng viên");
       if (this.objData.graduation_image == "") this.errors.push("Vui lòng chọn ảnh bằng tốt nghiệp");
       if (this.objData.short_bio == "") this.errors.push("Short BIO không được để trống");
-      if (this.objData.video_url == "") this.errors.push("Link video không được để trống");
+      // if (this.objData.video_url == "") this.errors.push("Link video không được để trống");
       return this.errors.length === 0;
     },
     addCandidates() {

@@ -155,6 +155,7 @@ class PageController extends Controller
                 'candidates.gender',
                 'candidates.avatar',
                 'candidates.graduation_image',
+                'candidates.other_documents',
                 'candidates.short_bio',
                 'candidates.video_url',
                 'candidate_categories.name as category_name',

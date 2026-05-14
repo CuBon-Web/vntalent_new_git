@@ -52,11 +52,11 @@
                            </div>
                        </div>
                        <div class="auth-group">
-                           <div class="form-check">
+                           {{-- <div class="form-check">
                                <a href="{{route('register')}}" class="form-check-label">
                                  Konto erstellen
                                </a>
-                           </div>
+                           </div> --}}
                            <a href="{{ route('password.forgot') }}" class="auth-group-link">Passwort vergessen?</a>
                        </div>
                        <div class="auth-btn">

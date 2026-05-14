@@ -147,6 +147,9 @@ export default {
       });
     },
     formatImgArr(arr) {
+      if (!Array.isArray(arr)) {
+        return [];
+      }
       const result = arr.map((item, index) => {
         if (typeof item === "string") {
           return {

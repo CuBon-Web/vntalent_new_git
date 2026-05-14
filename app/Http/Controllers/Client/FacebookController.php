@@ -20,7 +20,7 @@ class FacebookController extends Controller
             $finduser = Customer::where('facebook_id', $user->id)->first();
             if ($finduser) {
                 Auth::guard('customer')->login($finduser);
-                return redirect('/')->with('success', 'Đăng nhập thành công');
+                return redirect()->route('candidateList')->with('success', 'Melden Sie sich erfolgreich an');
             } else {
                 $newUser = Customer::create([
                     'name' => $user->name, 
@@ -30,7 +30,7 @@ class FacebookController extends Controller
                     'facebook_id' => $user->id]
                 );
                 Auth::guard('customer')->login($newUser);
-                return redirect('/')->with('success', 'Đăng nhập thành công');
+                return redirect()->route('candidateList')->with('success', 'Melden Sie sich erfolgreich an');
             }
         }
         catch(Exception $e) {

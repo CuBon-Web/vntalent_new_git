@@ -89,7 +89,7 @@ Giới thiệu về {{$setting->company}}
       </div>
    </div>
    @endif
-
+   @if($partner->count() > 0)
    <div class="partner-area bg pt-60 pb-60">
       <div class="container">
          <div class="partner-wrapper partner-slider owl-carousel owl-theme">
@@ -99,5 +99,6 @@ Giới thiệu về {{$setting->company}}
          </div>
       </div>
    </div>
+   @endif
 </main>
 @endsection

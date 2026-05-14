@@ -3248,6 +3248,9 @@ figcaption {
 
 .quote-img img {
     border-radius: 20px;
+    height: 363px;
+    width: 100%;
+    object-fit: cover;
 }
 
 .location-map {

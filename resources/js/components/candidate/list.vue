@@ -103,7 +103,7 @@ export default {
       id_item: "",
       timer: null,
       categoryOptions: [],
-      germanLevels: ["A1", "A2", "B1", "B2", "C1", "C2"],
+      germanLevels: ["Keine Deutschkenntnisse","A1", "A2", "B1", "B2", "C1", "C2"],
       filterCategory: "",
       filterAge: "",
       filterGerman: "",

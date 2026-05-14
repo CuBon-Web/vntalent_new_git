@@ -220,6 +220,18 @@ Danh sách ứng viên
         color: #0d6efd;
         font-size: 13px;
     }
+    .other-docs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+        gap: 10px;
+    }
+    .other-docs-grid .graduate-cert-thumb {
+        max-height: 120px;
+    }
+    .other-docs-grid .graduate-cert-zoom {
+        font-size: 11px;
+        padding: 4px 8px;
+    }
     .grad-fullscreen-overlay {
         position: fixed;
         inset: 0;
@@ -501,8 +513,8 @@ Danh sách ứng viên
         }
 
         function genderLabel(g) {
-            if (g == 1 || g === '1') return 'Männlich';
-            if (g == 2 || g === '2') return 'Weiblich';
+            if (g == 1 || g === '1') return 'männlich';
+            if (g == 2 || g === '2') return 'weiblich';
             return 'Aktualisierung';
         }
 
@@ -527,6 +539,29 @@ Danh sách ứng viên
                 return String(parseInt(m[1], 10)).padStart(2, '0') + '/' + String(parseInt(m[2], 10)).padStart(2, '0') + '/' + m[3];
             }
             return s;
+        }
+
+        /** other_documents: JSON string hoặc mảng URL; chỉ trả về chuỗi URL không rỗng */
+        function parseOtherDocuments(raw) {
+            if (raw == null || raw === '') return [];
+            var arr = [];
+            if (Array.isArray(raw)) {
+                arr = raw;
+            } else if (typeof raw === 'string') {
+                var t = raw.trim();
+                if (!t) return [];
+                try {
+                    var p = JSON.parse(t);
+                    arr = Array.isArray(p) ? p : [];
+                } catch (err) {
+                    return [];
+                }
+            } else {
+                return [];
+            }
+            return arr.filter(function (u) {
+                return u && typeof u === 'string' && String(u).trim() !== '';
+            }).map(function (u) { return String(u).trim(); });
         }
 
         function getYoutubeVideoId(urlStr) {
@@ -696,14 +731,15 @@ Danh sách ứng viên
 
         function renderCard(item) {
             var name = escapeHtml(item.name);
-            var level = escapeHtml(item.german_level || 'Chưa có level');
-            var cate = escapeHtml(item.category_name || 'Chưa phân ngành');
+            var level = escapeHtml(item.german_level || 'Noch kein Level');
+            var cate = escapeHtml(item.category_name || 'Noch kein Berufsbereich');
             var age = item.age ? (escapeHtml(String(item.age)) + ' Alter') : 'Aktualisierung';
             var birthFmt = formatBirthDateDMY(item.birth_date);
             var birth = birthFmt == null ? 'Aktualisierung' : escapeHtml(birthFmt);
             var gen = genderLabel(item.gender);
-            var avatar = escapeHtml(item.avatar || '');
+            var avatar = escapeHtml(item.avatar || '/frontend/img/blank-profile-picture.png');
             var grad = item.graduation_image ? escapeHtml(item.graduation_image) : '';
+            var otherDocUrls = parseOtherDocuments(item.other_documents);
             var rawVideo = item.video_url ? String(item.video_url).trim() : '';
             var video = rawVideo ? escapeHtml(rawVideo) : '';
             var videoEmbed = rawVideo ? escapeHtml(normalizeVideoEmbedUrl(rawVideo)) : '';
@@ -726,7 +762,7 @@ Danh sách ứng viên
             html += detailMetaItem('fas fa-language', 'Deutschkenntnisse', level);
             html += detailMetaItem('fas fa-venus-mars', 'Geschlecht', escapeHtml(gen));
             html += detailMetaItem('fas fa-hourglass-half', 'Alter', age);
-            html += detailMetaItem('far fa-calendar', 'Geburtstag', birth);
+            html += detailMetaItem('far fa-calendar', 'Geburtsdatum', birth);
             html += '</ul>';
             html += '<button type="button" class="btn-view-more js-open-candidate-modal" data-bs-toggle="modal" data-bs-target="#candidateModal' + id + '">Profil anschauen</button>';
             html += '</div></div></div>';
@@ -736,11 +772,11 @@ Danh sách ứng viên
             html += '<div class="modal-header"><h5 class="modal-title">' + name + '</h5>';
             html += '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>';
             html += '<div class="modal-body"><div class="row g-3 align-items-start">';
-            html += '<div class="col-md-5"><img class="modal-img" src="' + avatar + '" alt="' + name + '"></div>';
-            html += '<div class="col-md-7"><ul class="modal-meta">';
+            html += '<div class="col-md-4"><img class="modal-img" src="' + avatar + '" alt="' + name + '"></div>';
+            html += '<div class="col-md-8"><ul class="modal-meta">';
             html += detailMetaItem('fas fa-venus-mars', 'Geschlecht', escapeHtml(gen));
             html += detailMetaItem('fas fa-hourglass-half', 'Alter', age);
-            html += detailMetaItem('far fa-calendar', 'Geburtstag', birth);
+            html += detailMetaItem('far fa-calendar', 'Geburtsdatum', birth);
             html += detailMetaItem('fas fa-language', 'Deutschkenntnisse', level);
             html += detailMetaItem('fas fa-briefcase', 'Beruf', cate);
             html += '</ul>';
@@ -766,6 +802,22 @@ Danh sách ứng viên
                 html += '</span></button>';
                 html += '</div>';
             }
+            if (otherDocUrls.length) {
+                html += '<div class="other-docs-section modal-section graduate-cert-section">';
+                html += '<div class="graduate-cert-head"><i class="fas fa-images" aria-hidden="true"></i><span>Andere Dokumente</span></div>';
+                html += '<div class="other-docs-grid">';
+                otherDocUrls.forEach(function (docUrl, idx) {
+                    var escUrl = escapeHtml(docUrl);
+                    var overlayId = 'otherDocOverlay' + id + '_' + idx;
+                    html += '<button type="button" class="graduate-cert-preview js-open-grad-lightbox" data-grad-overlay="' + overlayId + '" aria-label="Xem ảnh lớn">';
+                    html += '<span class="graduate-cert-preview-frame">';
+                    html += '<img class="graduate-cert-thumb" src="' + escUrl + '" alt="">';
+                    html += '<span class="graduate-cert-shade" aria-hidden="true"></span>';
+                    html += '<span class="graduate-cert-zoom"><i class="fas fa-search-plus" aria-hidden="true"></i></span>';
+                    html += '</span></button>';
+                });
+                html += '</div></div>';
+            }
             html += '</div></div></div></div>';
             if (grad) {
                 html += '<div class="grad-fullscreen-overlay" id="gradOverlay' + id + '" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Originalbild">';
@@ -773,6 +825,14 @@ Danh sách ứng viên
                 html += '<div class="grad-fullscreen-inner"><img src="' + grad + '" alt="Originalbild"></div>';
                 html += '</div>';
             }
+            otherDocUrls.forEach(function (docUrl, idx) {
+                var escUrl = escapeHtml(docUrl);
+                var overlayId = 'otherDocOverlay' + id + '_' + idx;
+                html += '<div class="grad-fullscreen-overlay" id="' + overlayId + '" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Ảnh giấy tờ">';
+                html += '<button type="button" class="grad-fullscreen-close js-close-grad-lightbox" aria-label="Đóng">&times;</button>';
+                html += '<div class="grad-fullscreen-inner"><img src="' + escUrl + '" alt=""></div>';
+                html += '</div>';
+            });
 
             return { html: html, bio: bio, id: id };
         }
@@ -861,10 +921,10 @@ Danh sách ứng viên
     <!-- breadcrumb -->
     <div class="site-breadcrumb" style="background: url(assets/img/breadcrumb/01.jpg)">
         <div class="container">
-            <h2 class="breadcrumb-title">Liste der Bewerber</h2>
+            <h2 class="breadcrumb-title">Bewerberliste</h2>
             <ul class="breadcrumb-menu">
                 <li><a href="{{route('home')}}">Home</a></li>
-                <li class="active">Liste der Bewerber</li>
+                <li class="active">Bewerberliste</li>
             </ul>
         </div>
     </div>
@@ -878,7 +938,7 @@ Danh sách ứng viên
                     <div>
                         <div class="filter-title">Bewerberfilter</div>
                     </div>
-                    <button type="button" id="candidate-filter-reset" class="filter-reset-btn">Filter</button>
+                    {{-- <button type="button" id="candidate-filter-reset" class="filter-reset-btn">Filter</button> --}}
                 </div>
                 <div class="candidate-filter-toolbar-grid">
                     <div class="filter-block">
@@ -903,7 +963,7 @@ Danh sách ứng viên
                     <div class="filter-block">
                         <span class="filter-block-label">Deutschkenntnisse</span>
                         <div class="filter-chips" role="group" aria-label="Filter Deutschkenntnisse">
-                            @foreach(['A1','A2','B1','B2','C1','C2'] as $lvl)
+                            @foreach(['Keine Deutschkenntnisse','A1','A2','B1','B2','C1','C2'] as $lvl)
                                 <label class="filter-chip">
                                     <input type="checkbox" class="js-filter-german" value="{{ $lvl }}">
                                     <span>{{ $lvl }}</span>
@@ -915,8 +975,8 @@ Danh sách ứng viên
                         <span class="filter-block-label">Geschlecht</span>
                         <select id="filter-gender" name="gender" class="filter-select">
                             <option value="">Alle</option>
-                            <option value="1">Männlich</option>
-                            <option value="2">Weiblich</option>
+                            <option value="1">männlich</option>
+                            <option value="2">weiblich</option>
                         </select>
                     </div>
                 </div>

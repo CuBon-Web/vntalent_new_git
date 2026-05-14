@@ -133,7 +133,7 @@
                   <!-- nav-right -->
                   <div class="nav-right">
                      <div class="nav-btn">
-                        <a href="{{route('candidateList')}}" class="theme-btn">DS ứng viên<i
+                        <a href="{{route('candidateList')}}" class="theme-btn">Bewerbeliste<i
                            class="fas fa-arrow-right"></i></a>
                      </div>
                   </div>

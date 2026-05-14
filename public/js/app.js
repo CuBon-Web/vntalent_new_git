@@ -5138,6 +5138,10 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     formatImgArr: function formatImgArr(arr) {
+      if (!Array.isArray(arr)) {
+        return [];
+      }
+
       var result = arr.map(function (item, index) {
         if (typeof item === "string") {
           return {
@@ -8636,6 +8640,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _common_tinymce__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_common/tinymce */ "./resources/js/components/_common/tinymce.vue");
+/* harmony import */ var _common_upload_image_multi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_common/upload_image_multi */ "./resources/js/components/_common/upload_image_multi.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -8735,6 +8740,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -8750,16 +8760,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         gender: "",
         avatar: "",
         graduation_image: "",
+        other_documents: [],
         short_bio: "",
         video_url: "",
         status: 1
       },
       categoryOptions: [],
-      germanLevels: ["A1", "A2", "B1", "B2", "C1", "C2"]
+      germanLevels: ["Keine Deutschkenntnisse", "A1", "A2", "B1", "B2", "C1", "C2"]
     };
   },
   components: {
-    TinyMce: _common_tinymce__WEBPACK_IMPORTED_MODULE_1__["default"]
+    TinyMce: _common_tinymce__WEBPACK_IMPORTED_MODULE_1__["default"],
+    ImageMulti: _common_upload_image_multi__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["addCandidate", "loadings", "listCandidateCategory"])), {}, {
     fetchCategories: function fetchCategories() {
@@ -8778,11 +8790,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.objData.name == "") this.errors.push("Tên ứng viên không được để trống");
       if (this.objData.candidate_category_id == "") this.errors.push("Vui lòng chọn ngành nghề");
       if (this.objData.german_level == "") this.errors.push("Level tiếng Đức không được để trống");
-      if (this.objData.gender === "" || this.objData.gender === null) this.errors.push("Vui lòng chọn giới tính");
-      if (this.objData.avatar == "") this.errors.push("Vui lòng chọn ảnh ứng viên");
+      if (this.objData.gender === "" || this.objData.gender === null) this.errors.push("Vui lòng chọn giới tính"); // if (this.objData.avatar == "") this.errors.push("Vui lòng chọn ảnh ứng viên");
+
       if (this.objData.graduation_image == "") this.errors.push("Vui lòng chọn ảnh bằng tốt nghiệp");
-      if (this.objData.short_bio == "") this.errors.push("Short BIO không được để trống");
-      if (this.objData.video_url == "") this.errors.push("Link video không được để trống");
+      if (this.objData.short_bio == "") this.errors.push("Short BIO không được để trống"); // if (this.objData.video_url == "") this.errors.push("Link video không được để trống");
+
       return this.errors.length === 0;
     },
     addCandidates: function addCandidates() {
@@ -9148,6 +9160,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _common_tinymce__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_common/tinymce */ "./resources/js/components/_common/tinymce.vue");
+/* harmony import */ var _common_upload_image_multi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_common/upload_image_multi */ "./resources/js/components/_common/upload_image_multi.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -9247,6 +9260,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -9263,16 +9281,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         gender: "",
         avatar: "",
         graduation_image: "",
+        other_documents: [],
         short_bio: "",
         video_url: "",
         status: 1
       },
       categoryOptions: [],
-      germanLevels: ["A1", "A2", "B1", "B2", "C1", "C2"]
+      germanLevels: ["Keine Deutschkenntnisse", "A1", "A2", "B1", "B2", "C1", "C2"]
     };
   },
   components: {
-    TinyMce: _common_tinymce__WEBPACK_IMPORTED_MODULE_1__["default"]
+    TinyMce: _common_tinymce__WEBPACK_IMPORTED_MODULE_1__["default"],
+    ImageMulti: _common_upload_image_multi__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["addCandidate", "detailCandidate", "listCandidateCategory", "loadings"])), {}, {
     fetchCategories: function fetchCategories() {
@@ -9291,11 +9311,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.objData.name == "") this.errors.push("Tên ứng viên không được để trống");
       if (this.objData.candidate_category_id == "") this.errors.push("Vui lòng chọn ngành nghề");
       if (this.objData.german_level == "") this.errors.push("Level tiếng Đức không được để trống");
-      if (this.objData.gender === "" || this.objData.gender === null) this.errors.push("Vui lòng chọn giới tính");
-      if (this.objData.avatar == "") this.errors.push("Vui lòng chọn ảnh ứng viên");
+      if (this.objData.gender === "" || this.objData.gender === null) this.errors.push("Vui lòng chọn giới tính"); // if (this.objData.avatar == "") this.errors.push("Vui lòng chọn ảnh ứng viên");
+
       if (this.objData.graduation_image == "") this.errors.push("Vui lòng chọn ảnh bằng tốt nghiệp");
-      if (this.objData.short_bio == "") this.errors.push("Short BIO không được để trống");
-      if (this.objData.video_url == "") this.errors.push("Link video không được để trống");
+      if (this.objData.short_bio == "") this.errors.push("Short BIO không được để trống"); // if (this.objData.video_url == "") this.errors.push("Link video không được để trống");
+
       return this.errors.length === 0;
     },
     saveCandidateData: function saveCandidateData() {
@@ -9337,6 +9357,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
           if (_this3.objData.gender != null && _this3.objData.gender !== "") {
             _this3.objData.gender = String(_this3.objData.gender);
+          }
+
+          var od = _this3.objData.other_documents;
+
+          if (od == null || od === "") {
+            _this3.objData.other_documents = [];
+          } else if (typeof od === "string") {
+            try {
+              var parsed = JSON.parse(od);
+              _this3.objData.other_documents = Array.isArray(parsed) ? parsed : [];
+            } catch (e) {
+              _this3.objData.other_documents = [];
+            }
+          } else if (!Array.isArray(od)) {
+            _this3.objData.other_documents = [];
           }
         }
       })["catch"](function () {
@@ -9471,7 +9506,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       id_item: "",
       timer: null,
       categoryOptions: [],
-      germanLevels: ["A1", "A2", "B1", "B2", "C1", "C2"],
+      germanLevels: ["Keine Deutschkenntnisse", "A1", "A2", "B1", "B2", "C1", "C2"],
       filterCategory: "",
       filterAge: "",
       filterGerman: "",
@@ -315900,7 +315935,7 @@ var render = function() {
             _c("div", { staticClass: "row" }, [
               _c(
                 "div",
-                { staticClass: "col-md-6 form-group" },
+                { staticClass: "col-md-4 form-group" },
                 [
                   _c("label", [_vm._v("Ảnh ứng viên")]),
                   _vm._v(" "),
@@ -315920,9 +315955,9 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "col-md-6 form-group" },
+                { staticClass: "col-md-4 form-group" },
                 [
-                  _c("label", [_vm._v("Bằng tốt nghiệp (ảnh)")]),
+                  _c("label", [_vm._v("Chứng chỉ - bằng cấp")]),
                   _vm._v(" "),
                   _c("image-upload", {
                     attrs: { type: "avatar", title: _vm.objData.name },
@@ -315932,6 +315967,28 @@ var render = function() {
                         _vm.$set(_vm.objData, "graduation_image", $$v)
                       },
                       expression: "objData.graduation_image"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-4 form-group" },
+                [
+                  _c("label", [
+                    _vm._v("Giấy tờ khác (ảnh, có thể chọn nhiều)")
+                  ]),
+                  _vm._v(" "),
+                  _c("ImageMulti", {
+                    attrs: { title: _vm.objData.name || "ung-vien" },
+                    model: {
+                      value: _vm.objData.other_documents,
+                      callback: function($$v) {
+                        _vm.$set(_vm.objData, "other_documents", $$v)
+                      },
+                      expression: "objData.other_documents"
                     }
                   })
                 ],
@@ -316620,7 +316677,7 @@ var render = function() {
             _c("div", { staticClass: "row" }, [
               _c(
                 "div",
-                { staticClass: "col-md-6 form-group" },
+                { staticClass: "col-md-4 form-group" },
                 [
                   _c("label", [_vm._v("Ảnh ứng viên")]),
                   _vm._v(" "),
@@ -316640,9 +316697,9 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "col-md-6 form-group" },
+                { staticClass: "col-md-4 form-group" },
                 [
-                  _c("label", [_vm._v("Bằng tốt nghiệp (ảnh)")]),
+                  _c("label", [_vm._v("Chứng chỉ - bằng cấp")]),
                   _vm._v(" "),
                   _c("image-upload", {
                     attrs: { type: "avatar", title: _vm.objData.name },
@@ -316652,6 +316709,28 @@ var render = function() {
                         _vm.$set(_vm.objData, "graduation_image", $$v)
                       },
                       expression: "objData.graduation_image"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-4 form-group" },
+                [
+                  _c("label", [
+                    _vm._v("Giấy tờ khác (ảnh, có thể chọn nhiều)")
+                  ]),
+                  _vm._v(" "),
+                  _c("ImageMulti", {
+                    attrs: { title: _vm.objData.name || "ung-vien" },
+                    model: {
+                      value: _vm.objData.other_documents,
+                      callback: function($$v) {
+                        _vm.$set(_vm.objData, "other_documents", $$v)
+                      },
+                      expression: "objData.other_documents"
                     }
                   })
                 ],

@@ -265,7 +265,7 @@
                      <p class="service-text line_3">
                         {{languageName($item->description)}}
                      </p>
-                     <a href="{{route('serviceCateList',['slug'=>$item->slug])}}" class="theme-btn">Chi tiết<i
+                     <a href="{{route('serviceCateList',['slug'=>$item->slug])}}" class="theme-btn" style="float: right;">Chi tiết<i
                         class="fas fa-arrow-right"></i></a>
                   </div>
                </div>

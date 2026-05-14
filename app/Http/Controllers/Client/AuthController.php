@@ -23,9 +23,9 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         $credentials['status'] = 0;
         if (Auth::guard('customer')->attempt($credentials)) {
-            return redirect()->route('candidateList')->with('success', 'Đăng nhập thành công');
+            return redirect()->route('candidateList')->with('success', 'Melden Sie sich erfolgreich an');
         }else{
-            return back()->with('error', 'Đăng nhập thất bại vui lòng kiểm tra thông tin')->withInput();
+            return back()->with('error', 'Anmeldung fehlgeschlagen, bitte überprüfen Sie Ihre Angaben.')->withInput();
         }
         
     }
@@ -57,7 +57,7 @@ class AuthController extends Controller
             $data->status = 0;
             $data->save();
             if($data){
-                return view('auth.login')->with('success','Đăng ký tài khoản thành công');
+                return view('auth.login')->with('success','Kontoregistrierung erfolgreich');
             }
     }
     public function logout()

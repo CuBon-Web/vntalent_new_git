@@ -26,7 +26,7 @@ class GoogleController extends Controller
             if($finduser){
                 Auth::guard('customer')->login($finduser);
     
-                return redirect('/')->with('success', 'Đăng nhập thành công');
+                return redirect()->route('candidateList')->with('success', 'Melden Sie sich erfolgreich an');
      
             }else{
                 $newUser = Customer::create([
@@ -39,7 +39,7 @@ class GoogleController extends Controller
     
                 Auth::guard('customer')->login($newUser);
      
-                return redirect('/')->with('success', 'Đăng nhập thành công');
+                return redirect()->route('candidateList')->with('success', 'Melden Sie sich erfolgreich an');
             }
     
         } catch (Exception $e) {

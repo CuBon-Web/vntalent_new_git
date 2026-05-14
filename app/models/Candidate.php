@@ -31,6 +31,14 @@ class Candidate extends Model
         $query->german_level = $request->german_level;
         $query->avatar = $request->avatar;
         $query->graduation_image = $request->graduation_image;
+        $other = $request->input('other_documents');
+        if (is_array($other)) {
+            $query->other_documents = json_encode(array_values(array_filter($other)));
+        } elseif (is_string($other) && $other !== '') {
+            $query->other_documents = $other;
+        } else {
+            $query->other_documents = null;
+        }
         $query->short_bio = $request->short_bio;
         $query->video_url = $request->video_url;
         $query->status = $request->status;
