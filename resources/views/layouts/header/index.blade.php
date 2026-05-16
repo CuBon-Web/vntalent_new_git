@@ -25,8 +25,6 @@
                <div class="header-top-social">
                   <span>Theo dõi: </span>
                   <a href="{{$setting->facebook}}"><i class="fab fa-facebook"></i></a>
-                  <a href="#"><i class="fab fa-instagram"></i></a>
-                  <a href="#"><i class="fab fa-linkedin"></i></a>
               </div>
             </div>
          </div>
