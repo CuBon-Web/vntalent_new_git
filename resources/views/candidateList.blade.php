@@ -135,7 +135,7 @@ Danh sách ứng viên
     }
     .candidate-modal .modal-img {
         width: 100%;
-        max-height: 340px;
+        max-height: 235px;
         object-fit: cover;
         border-radius: 12px;
         border: 1px solid #edf1f7;
