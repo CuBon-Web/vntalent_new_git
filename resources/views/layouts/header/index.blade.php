@@ -131,7 +131,7 @@
                   <!-- nav-right -->
                   <div class="nav-right">
                      <div class="nav-btn">
-                        <a href="{{route('candidateList')}}" class="theme-btn">Bewerbeliste<i
+                        <a href="{{route('candidateList')}}" class="theme-btn">Bewerberliste<i
                            class="fas fa-arrow-right"></i></a>
                      </div>
                   </div>
