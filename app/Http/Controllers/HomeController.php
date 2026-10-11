@@ -14,6 +14,9 @@ use App\models\Project;
 use App\models\website\Banner;
 use App\models\BannerAds;
 use App\models\HomeChooseItem;
+use App\models\HomeChooseSetting;
+use App\models\HomeProcessSetting;
+use App\models\HomeServiceSetting;
 use App\models\website\Video;
 // use  App\models\website\Founder;
 use App\models\website\AlbumAffter;
@@ -31,6 +34,9 @@ class HomeController extends Controller
             ->orderBy('sort_order')
             ->orderBy('id')
             ->get();
+        $data['homeChooseSetting'] = HomeChooseSetting::current();
+        $data['homeProcessSetting'] = HomeProcessSetting::current();
+        $data['homeServiceSetting'] = HomeServiceSetting::current();
         $data['bannermobile'] = Banner::where(['status'=>2])->get(['id','image','link','status']);
         $data['gioithieu'] = PageContent::where(['slug'=>'gioi-thieu','language'=>'vi'])->first(['id','title','content','image']);
         $data['partner'] = Partner::where(['status'=>1])->get();

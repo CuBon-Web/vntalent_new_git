@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\models\Solution;
+use App\models\HomeServiceSetting;
 class SolutionController extends Controller
 {
     public function create(Request $request, Solution $ser)
@@ -54,5 +55,20 @@ class SolutionController extends Controller
             'data' => $data,
             'message' => 'success'
         ]);
+    }
+    public function getSetting()
+    {
+        return response()->json([
+            'data' => HomeServiceSetting::current(),
+            'message' => 'success'
+        ]);
+    }
+    public function saveSetting(Request $request)
+    {
+        $data = HomeServiceSetting::saveSetting($request);
+        return response()->json([
+            'data' => $data,
+            'message' => 'Save Success'
+        ], 200);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\models\HomeChooseItem;
+use App\models\HomeChooseSetting;
 use App\Services\CloudflareImageService;
 use Illuminate\Http\Request;
 
@@ -63,5 +64,23 @@ class HomeChooseItemController extends Controller
             'data' => $data,
             'message' => 'success',
         ]);
+    }
+
+    public function getSetting()
+    {
+        return response()->json([
+            'data' => HomeChooseSetting::current(),
+            'message' => 'success',
+        ]);
+    }
+
+    public function saveSetting(Request $request)
+    {
+        $data = HomeChooseSetting::saveSetting($request);
+
+        return response()->json([
+            'data' => $data,
+            'message' => 'Save Success',
+        ], 200);
     }
 }

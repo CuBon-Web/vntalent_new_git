@@ -114,6 +114,8 @@ Route::group(['namespace'=>'Api','middleware'=>'auth:api'],function(){
 		Route::post('create','SolutionController@create');
 		Route::get('edit/{id}','SolutionController@edit');
 		Route::get('delete/{id}','SolutionController@delete');
+		Route::get('homeSetting','SolutionController@getSetting');
+		Route::post('homeSetting','SolutionController@saveSetting');
 	});
 	Route::group(['prefix'=>'project','namspace'=>"Project"], function(){
 		Route::post('list','ProjectController@list');
@@ -144,11 +146,15 @@ Route::group(['namespace'=>'Api','middleware'=>'auth:api'],function(){
 	Route::post('createAdsbanner','BannerAdsController@create');
 	Route::get('editAdsbanner/{id}','BannerAdsController@edit');
 	Route::get('deleteAdsbanner/{id}','BannerAdsController@delete');
+	Route::get('homeProcessSetting','BannerAdsController@getSetting');
+	Route::post('homeProcessSetting','BannerAdsController@saveSetting');
 
 	Route::post('listHomeChoose', 'HomeChooseItemController@list');
 	Route::post('createHomeChoose', 'HomeChooseItemController@create');
 	Route::get('editHomeChoose/{id}', 'HomeChooseItemController@edit');
 	Route::get('deleteHomeChoose/{id}', 'HomeChooseItemController@delete');
+	Route::get('homeChooseSetting', 'HomeChooseItemController@getSetting');
+	Route::post('homeChooseSetting', 'HomeChooseItemController@saveSetting');
 
 	Route::group(['prefix'=>'reviewCus','namspace'=>"reviewCus"], function(){
 		Route::post('list','ReviewCusController@list');

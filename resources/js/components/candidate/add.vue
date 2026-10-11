@@ -37,6 +37,13 @@
                 <vs-select-item value="0" text="Ẩn" />
               </vs-select>
             </div>
+            <div class="form-group">
+              <label>Tình trạng hồ sơ</label>
+              <vs-select v-model="objData.profile_status" class="w-100">
+                <vs-select-item value="" text="-- Chọn tình trạng --" />
+                <vs-select-item v-for="opt in profileStatusOptions" :key="opt.value" :value="opt.value" :text="opt.text" />
+              </vs-select>
+            </div>
             <div class="row">
               <div class="col-md-4 form-group">
                 <label>Tuổi</label>
@@ -116,8 +123,15 @@ export default {
         short_bio: "",
         video_url: "",
         status: 1,
+        profile_status: "",
       },
       categoryOptions: [],
+      profileStatusOptions: [
+        { value: "1", text: "🟡 Đang học tiếng Đức" },
+        { value: "2", text: "🟡 Đang chờ hồ sơ" },
+        { value: "3", text: "🟢 Sẵn sàng phỏng vấn" },
+        { value: "4", text: "🔴 Đã bắt đầu quy trình xin visa" },
+      ],
       germanLevels: ["Keine Deutschkenntnisse","A1", "A2", "B1", "B2", "C1", "C2"],
     };
   },
@@ -125,8 +139,23 @@ export default {
     TinyMce,
     ImageMulti,
   },
+  watch: {
+    "objData.birth_date"(val) {
+      const age = this.calcAge(val);
+      if (age !== null) this.objData.age = age;
+    },
+  },
   methods: {
     ...mapActions(["addCandidate", "loadings", "listCandidateCategory"]),
+    calcAge(dateStr) {
+      const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(dateStr || "");
+      if (!m) return null;
+      const y = +m[1], mo = +m[2], d = +m[3];
+      const today = new Date();
+      let age = today.getFullYear() - y;
+      if (today.getMonth() + 1 < mo || (today.getMonth() + 1 === mo && today.getDate() < d)) age--;
+      return age >= 0 && age < 150 ? age : null;
+    },
     fetchCategories() {
       this.listCandidateCategory({ keyword: "" }).then((response) => {
         this.categoryOptions = response.data.filter((item) => Number(item.status) === 1);

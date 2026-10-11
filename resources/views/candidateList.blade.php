@@ -54,6 +54,47 @@ Danh sách ứng viên
         font-size: 12px;
         font-weight: 600;
     }
+    .candidate-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 12px;
+        padding: 5px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.3;
+    }
+    .candidate-status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+    .candidate-status--yellow {
+        background: #fff8e1;
+        color: #8a6100;
+    }
+    .candidate-status--yellow .candidate-status-dot {
+        background: #f5b301;
+    }
+    .candidate-status--green {
+        background: #e7f8ee;
+        color: #146c3a;
+    }
+    .candidate-status--green .candidate-status-dot {
+        background: #22a55a;
+    }
+    .candidate-status--red {
+        background: #fdecec;
+        color: #a32020;
+    }
+    .candidate-status--red .candidate-status-dot {
+        background: #dc3545;
+    }
+    .candidate-modal .candidate-status {
+        margin-bottom: 10px;
+    }
     .candidate-meta {
         margin: 0;
         padding: 0;
@@ -518,6 +559,19 @@ Danh sách ứng viên
             return 'Aktualisierung';
         }
 
+        var PROFILE_STATUSES = {
+            1: { label: 'Lernt Deutsch', color: 'yellow' },
+            2: { label: 'Wartet auf Dokumente', color: 'yellow' },
+            3: { label: 'Bereit für Gespräche', color: 'green' },
+            4: { label: 'Bereits im Visaverfahren', color: 'red' }
+        };
+
+        function profileStatusBadge(s) {
+            var st = PROFILE_STATUSES[s];
+            if (!st) return '';
+            return '<span class="candidate-status candidate-status--' + st.color + '"><span class="candidate-status-dot" aria-hidden="true"></span>' + escapeHtml(st.label) + '</span>';
+        }
+
         /** Một dòng meta có icon (valueEscaped đã escape nếu cần) */
         function detailMetaItem(iconClass, label, valueEscaped) {
             return '<li class="detail-meta-item"><span class="detail-meta-icon"><i class="' + iconClass + '" aria-hidden="true"></i></span><div class="detail-meta-body"><span class="detail-meta-label">' + escapeHtml(label) + '</span><span class="detail-meta-value">' + valueEscaped + '</span></div></li>';
@@ -601,8 +655,26 @@ Danh sách ứng viên
             document.body.style.overflow = 'hidden';
         }
 
+        /** Nạp lại iframe để dừng video (áp dụng cho mọi nguồn, không cần YouTube JS API) */
+        function stopModalVideos(modal) {
+            if (!modal) return;
+            modal.querySelectorAll('.modal-video-frame iframe').forEach(function (frame) {
+                var src = frame.getAttribute('src');
+                if (!src) return;
+                frame.setAttribute('src', 'about:blank');
+                frame.setAttribute('src', src);
+            });
+        }
+
+        document.addEventListener('hide.bs.modal', function (e) {
+            if (e.target && e.target.classList && e.target.classList.contains('candidate-modal')) {
+                stopModalVideos(e.target);
+            }
+        });
+
         function closeModal(modal) {
             if (!modal) return;
+            stopModalVideos(modal);
             if (window.bootstrap && window.bootstrap.Modal) {
                 var instance = window.bootstrap.Modal.getInstance(modal);
                 if (instance) instance.hide();
@@ -733,7 +805,7 @@ Danh sách ứng viên
             var name = escapeHtml(item.name);
             var level = escapeHtml(item.german_level || 'Noch kein Level');
             var cate = escapeHtml(item.category_name || 'Noch kein Berufsbereich');
-            var age = item.age ? (escapeHtml(String(item.age)) + ' Alter') : 'Aktualisierung';
+            var age = item.age ? (escapeHtml(String(item.age))) : 'Aktualisierung';
             var birthFmt = formatBirthDateDMY(item.birth_date);
             var birth = birthFmt == null ? 'Aktualisierung' : escapeHtml(birthFmt);
             var gen = genderLabel(item.gender);
@@ -744,6 +816,7 @@ Danh sách ứng viên
             var video = rawVideo ? escapeHtml(rawVideo) : '';
             var videoEmbed = rawVideo ? escapeHtml(normalizeVideoEmbedUrl(rawVideo)) : '';
             var bio = item.short_bio || '';
+            var statusBadge = profileStatusBadge(item.profile_status);
             var id = item.id;
 
             var html = '';
@@ -753,6 +826,7 @@ Danh sách ứng viên
             html += '<div class="team-img"><img class="candidate-thumb" src="' + avatar + '" alt="' + name + '"></div>';
             html += '<div class="candidate-body">';
             html += '<h4 class="candidate-name">' + name + '</h4>';
+            html += statusBadge;
             // html += '<div class="candidate-badges">';
             // html += '<span class="candidate-badge">' + level + '</span>';
             // html += '<span class="candidate-badge">' + cate + '</span>';
@@ -773,7 +847,7 @@ Danh sách ứng viên
             html += '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>';
             html += '<div class="modal-body"><div class="row g-3 align-items-start">';
             html += '<div class="col-md-4"><img class="modal-img" src="' + avatar + '" alt="' + name + '"></div>';
-            html += '<div class="col-md-8"><ul class="modal-meta">';
+            html += '<div class="col-md-8">' + statusBadge + '<ul class="modal-meta">';
             html += detailMetaItem('fas fa-venus-mars', 'Geschlecht', escapeHtml(gen));
             html += detailMetaItem('fas fa-hourglass-half', 'Alter', age);
             html += detailMetaItem('far fa-calendar', 'Geburtsdatum', birth);

@@ -8,6 +8,9 @@
             <router-link class="nav-link" :to="{ name: 'addHomeChoose' }">
               <vs-button type="gradient" style="float: right">Thêm mới</vs-button>
             </router-link>
+            <router-link class="nav-link" :to="{ name: 'settingHomeChoose' }">
+              <vs-button type="border" style="float: right; margin-right: 8px">Sửa tiêu đề &amp; ảnh</vs-button>
+            </router-link>
             <vs-input icon="search" placeholder="Tìm theo tiêu đề" v-model="keyword" @keyup="onSearch" />
             <vs-table stripe :data="list" max-items="15" pagination>
               <template slot="thead">

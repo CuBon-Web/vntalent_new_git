@@ -11,6 +11,24 @@ export const addSolution = ({commit},opt) => {
         })
     });
 };
+export const getHomeServiceSetting = ({commit}) => {
+    return new Promise((resolve, reject) => {
+        HTTP.get('/api/solution/homeSetting').then(response => {
+            return resolve(response.data);
+        }).catch(error => {
+            return reject(error);
+        })
+    });
+};
+export const saveHomeServiceSetting = ({commit},opt) => {
+    return new Promise((resolve, reject) => {
+        HTTP.post('/api/solution/homeSetting',opt).then(response => {
+            return resolve(response.data);
+        }).catch(error => {
+            return reject(error);
+        })
+    });
+};
 export const listSolution = ({commit},opt) => {
     return new Promise((resolve, reject) => {
         HTTP.post('/api/solution/list',opt).then(response => {

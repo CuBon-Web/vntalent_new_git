@@ -8,6 +8,9 @@
               <router-link class="nav-link" :to="{name:'add_solution'}">
                 <vs-button type="gradient" style="float:right;">Thêm mới</vs-button>
               </router-link>
+              <router-link class="nav-link" :to="{name:'setting_solution'}">
+                <vs-button type="border" style="float:right; margin-right:8px;">Sửa tiêu đề &amp; mô tả</vs-button>
+              </router-link>
               <vs-input icon="search" placeholder="Search" v-model="keyword" />
               <vs-table stripe :data="list" max-items="10" pagination>
                 <template slot="thead">

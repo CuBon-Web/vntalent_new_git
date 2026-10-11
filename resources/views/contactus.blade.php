@@ -88,11 +88,11 @@ Liên hệ với chúng tôi
                   <div class="col-md-4">
                       <div class="contact-info">
                           <div class="icon">
-                              <i class="fal fa-alarm-clock"></i>
+                              <i class="fab fa-facebook-f"></i>
                           </div>
                           <div class="content">
-                              <h5>Open Time</h5>
-                              <p>T2 - T7 (8.30AM - 05.30PM)</p>
+                              <h5>Facebook</h5>
+                              <a href="{{$setting->facebook}}" target="_blank">{{$setting->facebook}}</a>
                           </div>
                       </div>
                   </div>

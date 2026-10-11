@@ -490,6 +490,14 @@ let _routers = [
                 }
             },
             {
+                name: 'settingBannerads',
+                path: '/bannerads/setting',
+                component: _import('bannerads/setting'),
+                meta: {
+                    requiresAuth: true,
+                }
+            },
+            {
                 name: 'addBannerads',
                 path: '/bannerads/add',
                 component: _import('bannerads/add'),
@@ -509,6 +517,14 @@ let _routers = [
                 name: 'listHomeChoose',
                 path: '/home-choose',
                 component: _import('homechoose/list'),
+                meta: {
+                    requiresAuth: true,
+                }
+            },
+            {
+                name: 'settingHomeChoose',
+                path: '/home-choose/setting',
+                component: _import('homechoose/setting'),
                 meta: {
                     requiresAuth: true,
                 }
@@ -557,6 +573,14 @@ let _routers = [
                 name: 'list_solution',
                 path: '/solution',
                 component: _import('solution/list'),
+                meta: {
+                    requiresAuth: true,
+                }
+            },
+            {
+                name: 'setting_solution',
+                path: '/solution/setting',
+                component: _import('solution/setting'),
                 meta: {
                     requiresAuth: true,
                 }

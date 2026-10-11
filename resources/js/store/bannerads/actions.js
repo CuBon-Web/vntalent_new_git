@@ -30,6 +30,24 @@ export const deleteBannerads = ({commit}, opt) => {
         })
     });
 }
+export const getHomeProcessSetting = ({commit}) => {
+    return new Promise((resolve, reject) => {
+        HTTP.get('/api/homeProcessSetting').then(response => {
+            return resolve(response.data);
+        }).catch(error => {
+            return reject(error);
+        })
+    });
+}
+export const saveHomeProcessSetting = ({commit}, opt) => {
+    return new Promise((resolve, reject) => {
+        HTTP.post('/api/homeProcessSetting', opt).then(response => {
+            return resolve(response.data);
+        }).catch(error => {
+            return reject(error);
+        })
+    });
+}
 export const detailBannerads = ({commit}, opt) => {
     return new Promise((resolve, reject) => {
         HTTP.get('/api/editAdsbanner/'+ opt.id).then(response => {

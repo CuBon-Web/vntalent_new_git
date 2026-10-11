@@ -70,7 +70,7 @@
                         <a class="nav-link active" href="{{route('home')}}">Trang chủ</a>
                         
                      </li>
-                     <li class="nav-item"><a class="nav-link" href="{{route('aboutUs')}}">Giới Thiệu</a></li>
+                    
                      <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Du học nghề Đức</a>
                         <ul class="dropdown-menu fade-down">
@@ -127,6 +127,7 @@
                      </li> --}}
                      {{-- @endif --}}
                      <li class="nav-item"><a class="nav-link" href="{{route('lienHe')}}">Liên Hệ</a></li>
+                     <li class="nav-item"><a class="nav-link" href="{{route('aboutUs')}}">Giới Thiệu</a></li>
                   </ul>
                   <!-- nav-right -->
                   <div class="nav-right">

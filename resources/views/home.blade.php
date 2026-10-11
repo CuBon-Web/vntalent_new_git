@@ -229,17 +229,21 @@
          <div class="row g-4 align-items-center wow fadeInDown" data-wow-delay=".25s">
             <div class="col-lg-6">
                <div class="site-heading mb-0">
-                  <span class="site-title-tagline"><i class="far fa-school"></i> Services</span>
-                  <h2 class="site-title text-white">Cách chương trình tuyển sinh</h2>
+                  @if($homeServiceSetting->tagline)
+                  <span class="site-title-tagline"><i class="far fa-school"></i> {{ $homeServiceSetting->tagline }}</span>
+                  @endif
+                  <h2 class="site-title text-white">{{ $homeServiceSetting->title }}</h2>
                </div>
             </div>
             <div class="col-lg-4">
-               <p class="text-white">
-                  Chương trình tuyển sinh của chúng tôi được thiết kế để phù hợp với nhu cầu và năng lực của từng học viên, đảm bảo quý khách có thể đạt được các mới trong quá trình học tập và phát triển.
-               </p>
+               @if($homeServiceSetting->description)
+               <p class="text-white">{!! nl2br(e($homeServiceSetting->description)) !!}</p>
+               @endif
             </div>
             <div class="col-lg-2">
-               <a href="" class="theme-btn">Tất Cả<i class="fas fa-arrow-right"></i></a>
+               @if($homeServiceSetting->button_text)
+               <a href="{{ $homeServiceSetting->button_link ?: '#' }}" class="theme-btn">{{ $homeServiceSetting->button_text }}<i class="fas fa-arrow-right"></i></a>
+               @endif
             </div>
          </div>
          <div class="service-slider mt-4 owl-carousel">
@@ -332,11 +336,13 @@
             <div class="col-lg-6">
                <div class="choose-content wow fadeInUp" data-wow-delay=".25s">
                   <div class="site-heading mb-0">
-                     <span class="site-title-tagline"><i class="fas fa-school"></i> Why Choose Us</span>
-                     <h2 class="site-title">Tại sao nên chọn <span>VNTALENTHUB</span></h2>
-                     <p>
-                        VNTALENTHUB mang lại giải pháp du học nghề và lao động quốc tế uy tín và chuyên nghiệp nhất cho khách hàng. Chúng tôi sẽ đồng hành cùng các bạn trên chặng đường phía trước với giấc mơ xuất ngoại trong tầm tay, mọi thủ tục và chi phí sẽ được tối ưu nhất.
-                     </p>
+                     @if($homeChooseSetting->tagline)
+                     <span class="site-title-tagline"><i class="fas fa-school"></i> {{ $homeChooseSetting->tagline }}</span>
+                     @endif
+                     <h2 class="site-title">{{ $homeChooseSetting->title }} @if($homeChooseSetting->title_highlight)<span>{{ $homeChooseSetting->title_highlight }}</span>@endif</h2>
+                     @if($homeChooseSetting->description)
+                     <p>{!! nl2br(e($homeChooseSetting->description)) !!}</p>
+                     @endif
                   </div>
                   <div class="choose-content-wrap">
                      @php
@@ -360,9 +366,9 @@
             </div>
             <div class="col-lg-6">
                <div class="choose-img wow fadeInRight" data-wow-delay=".25s">
-                  <img class="img-1 lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" data-src="{{ env('AWS_R2_URL') }}/frontend/img/choose1.jpg" alt="image">
-                  <img class="img-2 lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" data-src="{{ env('AWS_R2_URL') }}/frontend/img/choose2.jpg" alt="image">
-                  <img class="img-shape lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" data-src="{{ env('AWS_R2_URL') }}/frontend/img/04.png" alt="image">
+                  <img class="img-1 lazy" src="{{ $lazyPh }}" data-src="{{ $homeChooseSetting->image_1 ?: env('AWS_R2_URL').'/frontend/img/choose1.jpg' }}" alt="{{ $homeChooseSetting->title_highlight ?: 'image' }}">
+                  <img class="img-2 lazy" src="{{ $lazyPh }}" data-src="{{ $homeChooseSetting->image_2 ?: env('AWS_R2_URL').'/frontend/img/choose2.jpg' }}" alt="{{ $homeChooseSetting->title_highlight ?: 'image' }}">
+                  <img class="img-shape lazy" src="{{ $lazyPh }}" data-src="{{ $homeChooseSetting->image_shape ?: env('AWS_R2_URL').'/frontend/img/04.png' }}" alt="">
                </div>
             </div>
          </div>
@@ -374,13 +380,13 @@
        <div class="row g-4 align-items-center wow fadeInDown" data-wow-delay=".25s">
            <div class="col-lg-6">
                <div class="site-heading mb-0">
-                   <span class="site-title-tagline"><i class="far fa-truck-container"></i> Step by step</span>
-                   <h2 class="site-title text-white">Quy trình hồ sơ</h2>
+                   @if($homeProcessSetting->tagline)<span class="site-title-tagline"><i class="far fa-truck-container"></i> {{ $homeProcessSetting->tagline }}</span>@endif
+                   <h2 class="site-title text-white">{{ $homeProcessSetting->title }}</h2>
                </div>
            </div>
            <div class="col-lg-6">
                <p class="text-white">
-                   Quy trình hồ sơ của chúng tôi được thiết kế để phù hợp với nhu cầu và năng lực của từng học viên, đảm bảo quý khách có thể đạt được các mới trong quá trình học tập và phát triển.
+                   {!! nl2br(e($homeProcessSetting->description)) !!}
                </p>
            </div>
        </div>
@@ -470,7 +476,7 @@
                      <span class="site-title-tagline"><i class="fas fa-school"></i> Faq's</span>
                      <h2 class="site-title my-3">Câu hỏi thường gặp</h2>
                   </div>
-                  <a href="{{route('faq')}}" class="theme-btn mt-2">Xen thêm câu hỏi</a>
+                  <a href="{{route('faq')}}" class="theme-btn mt-2">Xem thêm câu hỏi</a>
                </div>
             </div>
             @php
@@ -585,7 +591,7 @@
    </div>
    <!-- quote area end -->
    <!-- blog-area -->
-   @if (count($hotnews) > 0)
+   {{-- @if (count($hotnews) > 0)
    <div class="blog-area pb-80">
       <div class="container">
          <div class="row">
@@ -630,7 +636,7 @@
          </div>
       </div>
    </div>
-   @endif
+   @endif --}}
    <!-- blog-area end -->
    <!-- partner area -->
    @if(count($partner) > 0)

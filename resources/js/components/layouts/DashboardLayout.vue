@@ -157,7 +157,7 @@ export default {
         },
         {
           icon: "mdi mdi-crosshairs-gps menu-icon",
-          name: "Du học nghề Đức",
+          name: "Dịch vụ",
           route_name: "",
           sub: [
             {

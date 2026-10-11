@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\models\BannerAds;
+use App\models\HomeProcessSetting;
 use App\Services\CloudflareImageService;
 
 class BannerAdsController extends Controller
@@ -58,5 +59,20 @@ class BannerAdsController extends Controller
             'data' => $data,
             'message' => 'success'
         ]);
+    }
+    public function getSetting()
+    {
+        return response()->json([
+            'data' => HomeProcessSetting::current(),
+            'message' => 'success'
+        ]);
+    }
+    public function saveSetting(Request $request)
+    {
+        $data = HomeProcessSetting::saveSetting($request);
+        return response()->json([
+            'data' => $data,
+            'message' => 'Save Success'
+        ], 200);
     }
 }

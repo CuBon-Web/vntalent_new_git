@@ -42,6 +42,9 @@ class Candidate extends Model
         $query->short_bio = $request->short_bio;
         $query->video_url = $request->video_url;
         $query->status = $request->status;
+        $query->profile_status = in_array((string) $request->profile_status, ['1', '2', '3', '4'], true)
+            ? (int) $request->profile_status
+            : null;
         $query->save();
 
         return $query;

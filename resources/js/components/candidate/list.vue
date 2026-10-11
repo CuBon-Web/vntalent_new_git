@@ -58,6 +58,7 @@
                 <vs-th>Giới tính</vs-th>
                 <vs-th>Tuổi / Ngày sinh</vs-th>
                 <vs-th>Level tiếng Đức</vs-th>
+                <vs-th>Tình trạng hồ sơ</vs-th>
                 <vs-th>Hành động</vs-th>
               </template>
               <template slot-scope="{ data }">
@@ -70,6 +71,7 @@
                   <vs-td>{{ genderLabel(tr.gender) }}</vs-td>
                   <vs-td>{{ renderAgeBirth(tr) }}</vs-td>
                   <vs-td>{{ tr.german_level }}</vs-td>
+                  <vs-td>{{ profileStatusLabel(tr.profile_status) }}</vs-td>
                   <vs-td>
                     <router-link :to="{ name: 'editCandidate', params: { id: tr.id } }">
                       <vs-button vs-type="gradient" size="lagre" color="success" icon="edit"></vs-button>
@@ -143,6 +145,15 @@ export default {
       if (g == 1 || g === "1") return "Nam";
       if (g == 2 || g === "2") return "Nữ";
       return "—";
+    },
+    profileStatusLabel(s) {
+      const labels = {
+        1: "🟡 Đang học tiếng Đức",
+        2: "🟡 Đang chờ hồ sơ",
+        3: "🟢 Sẵn sàng phỏng vấn",
+        4: "🔴 Đã bắt đầu quy trình xin visa",
+      };
+      return labels[s] || "—";
     },
     onFilterChange() {
       this.listCandidates();

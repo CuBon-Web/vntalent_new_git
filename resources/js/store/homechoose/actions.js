@@ -24,6 +24,22 @@ export const deleteHomeChoose = ({ commit }, opt) => {
   });
 };
 
+export const getHomeChooseSetting = ({ commit }) => {
+  return new Promise((resolve, reject) => {
+    HTTP.get('/api/homeChooseSetting')
+      .then((response) => resolve(response.data))
+      .catch((error) => reject(error));
+  });
+};
+
+export const saveHomeChooseSetting = ({ commit }, opt) => {
+  return new Promise((resolve, reject) => {
+    HTTP.post('/api/homeChooseSetting', opt)
+      .then((response) => resolve(response.data))
+      .catch((error) => reject(error));
+  });
+};
+
 export const detailHomeChoose = ({ commit }, opt) => {
   return new Promise((resolve, reject) => {
     HTTP.get('/api/editHomeChoose/' + opt.id)

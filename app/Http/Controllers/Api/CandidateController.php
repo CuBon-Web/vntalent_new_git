@@ -68,6 +68,7 @@ class CandidateController extends Controller
             'candidates.german_level',
             'candidates.gender',
             'candidates.avatar',
+            'candidates.profile_status',
             'candidates.created_at',
         ];
 
