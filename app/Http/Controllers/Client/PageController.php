@@ -145,6 +145,10 @@ class PageController extends Controller
             $query->where('candidates.gender', (int) $request->gender);
         }
 
+        if ($request->filled('profile_status') && in_array((string) $request->profile_status, ['1', '2', '3', '4'], true)) {
+            $query->where('candidates.profile_status', (int) $request->profile_status);
+        }
+
         return $query->orderBy('candidates.id', 'DESC')
             ->select([
                 'candidates.id',

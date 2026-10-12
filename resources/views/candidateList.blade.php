@@ -468,7 +468,7 @@ Danh sách ứng viên
     }
     @media (min-width: 992px) {
         .candidate-filter-toolbar-grid {
-            grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.55fr) minmax(0, 0.95fr) minmax(0, 0.42fr);
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.55fr) minmax(0, 0.9fr) minmax(0, 0.45fr) minmax(0, 0.9fr);
             gap: 16px 20px;
             align-items: start;
         }
@@ -536,6 +536,104 @@ Danh sách ứng viên
     }
     .candidate-filter-wrap .filter-chip:hover span {
         border-color: #9db4cc;
+    }
+    #candidate-pagination {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    .candidate-pagination-nav .cp-list {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin: 0;
+        padding: 6px;
+        list-style: none;
+        background: #fff;
+        border: 1px solid #e6eef7;
+        border-radius: 999px;
+        box-shadow: 0 8px 24px rgba(12, 40, 70, .08);
+    }
+    .candidate-pagination-nav .cp-item {
+        margin: 0;
+    }
+    .candidate-pagination-nav .cp-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+        height: 40px;
+        padding: 0 12px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #35506b;
+        background: transparent;
+        text-decoration: none;
+        transition: background .2s ease, color .2s ease, box-shadow .2s ease, transform .2s ease;
+    }
+    .candidate-pagination-nav a.cp-link:hover {
+        background: #eef5ff;
+        color: #0d6efd;
+        transform: translateY(-1px);
+    }
+    .candidate-pagination-nav a.cp-link:focus-visible {
+        outline: 2px solid #0d6efd;
+        outline-offset: 2px;
+    }
+    .candidate-pagination-nav .cp-link.is-active {
+        background: linear-gradient(135deg, #0d6efd 0%, #0b57c7 100%);
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(13, 110, 253, .3);
+    }
+    .candidate-pagination-nav .cp-arrow {
+        color: #0d6efd;
+        background: #f3f7fc;
+        font-size: 12px;
+    }
+    .candidate-pagination-nav .cp-link.is-disabled {
+        color: #b7c6d6;
+        background: #f6f8fb;
+        cursor: not-allowed;
+    }
+    .candidate-pagination-nav .cp-ellipsis {
+        display: inline-flex;
+        align-items: flex-end;
+        justify-content: center;
+        min-width: 24px;
+        height: 40px;
+        padding-bottom: 8px;
+        color: #8aa0b6;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+    #candidate-pagination .cp-summary {
+        margin: 0;
+        font-size: 13px;
+        color: #6b849e;
+        text-align: center;
+    }
+    #candidate-pagination .cp-summary strong {
+        color: #0f2740;
+    }
+    @media (max-width: 575.98px) {
+        .candidate-pagination-nav .cp-list {
+            border-radius: 16px;
+            gap: 4px;
+        }
+        .candidate-pagination-nav .cp-link {
+            min-width: 34px;
+            height: 34px;
+            padding: 0 8px;
+            font-size: 13px;
+        }
+        .candidate-pagination-nav .cp-ellipsis {
+            height: 34px;
+            min-width: 16px;
+        }
     }
 </style>
 @endsection
@@ -759,6 +857,7 @@ Danh sách ứng viên
         var filterWrap = document.querySelector('.candidate-filter-wrap');
         var filterAge = document.getElementById('filter-age');
         var filterGender = document.getElementById('filter-gender');
+        var filterProfileStatus = document.getElementById('filter-profile-status');
         var currentPage = 1;
         var loadTimer = null;
 
@@ -780,24 +879,44 @@ Danh sách ứng viên
                 if (v) params.append('german_level[]', v);
             });
             if (filterGender && filterGender.value) params.set('gender', filterGender.value);
+            if (filterProfileStatus && filterProfileStatus.value) params.set('profile_status', filterProfileStatus.value);
             return params.toString();
         }
 
         function renderPagination(meta, links) {
             if (!paginationEl) return;
             if (!meta || meta.last_page <= 1) {
-                paginationEl.innerHTML = meta && meta.total ? '<p class="text-center text-muted small">Gesamt ' + meta.total + ' Bewerber</p>' : '';
+                paginationEl.innerHTML = meta && meta.total ? '<p class="cp-summary">Gesamt <strong>' + meta.total + '</strong> Bewerber</p>' : '';
                 return;
             }
-            var html = '<nav class="candidate-pagination-nav"><ul class="pagination justify-content-center flex-wrap align-items-center">';
-            if (links.prev_url) {
-                html += '<li class="page-item"><a class="page-link js-candidate-page" href="#" data-page="' + (meta.current_page - 1) + '">Vorherige</a></li>';
+            var cur = meta.current_page;
+            var last = meta.last_page;
+
+            function pageBtn(p, label, extraClass, ariaLabel) {
+                return '<li class="cp-item"><a class="cp-link js-candidate-page' + (extraClass ? ' ' + extraClass : '') + '" href="#" data-page="' + p + '"' + (ariaLabel ? ' aria-label="' + ariaLabel + '"' : '') + '>' + label + '</a></li>';
             }
-            html += '<li class="page-item disabled"><span class="page-link">Seite ' + meta.current_page + ' / ' + meta.last_page + '</span></li>';
-            if (links.next_url) {
-                html += '<li class="page-item"><a class="page-link js-candidate-page" href="#" data-page="' + (meta.current_page + 1) + '">Nächste</a></li>';
-            }
-            html += '</ul></nav><p class="text-center text-muted small mt-2">Anzeigen ' + (meta.from || 0) + '–' + (meta.to || 0) + ' / ' + meta.total + ' Bewerber</p>';
+
+            var pages = [1];
+            for (var p = Math.max(2, cur - 1); p <= Math.min(last - 1, cur + 1); p++) pages.push(p);
+            if (last > 1) pages.push(last);
+
+            var html = '<nav class="candidate-pagination-nav" aria-label="Seitennavigation"><ul class="cp-list">';
+            html += links.prev_url
+                ? pageBtn(cur - 1, '<i class="fas fa-chevron-left" aria-hidden="true"></i>', 'cp-arrow', 'Vorherige Seite')
+                : '<li class="cp-item"><span class="cp-link cp-arrow is-disabled" aria-hidden="true"><i class="fas fa-chevron-left"></i></span></li>';
+            var prevShown = 0;
+            pages.forEach(function (pg) {
+                if (pg - prevShown > 1) html += '<li class="cp-item"><span class="cp-ellipsis">…</span></li>';
+                html += pg === cur
+                    ? '<li class="cp-item"><span class="cp-link is-active" aria-current="page">' + pg + '</span></li>'
+                    : pageBtn(pg, pg, '', 'Seite ' + pg);
+                prevShown = pg;
+            });
+            html += links.next_url
+                ? pageBtn(cur + 1, '<i class="fas fa-chevron-right" aria-hidden="true"></i>', 'cp-arrow', 'Nächste Seite')
+                : '<li class="cp-item"><span class="cp-link cp-arrow is-disabled" aria-hidden="true"><i class="fas fa-chevron-right"></i></span></li>';
+            html += '</ul></nav>';
+            html += '<p class="cp-summary">Anzeigen <strong>' + (meta.from || 0) + '–' + (meta.to || 0) + '</strong> von <strong>' + meta.total + '</strong> Bewerbern</p>';
             paginationEl.innerHTML = html;
         }
 
@@ -954,7 +1073,7 @@ Danh sách ứng viên
 
         if (filterWrap) {
             filterWrap.addEventListener('change', function (e) {
-                if (e.target && (e.target.classList.contains('js-filter-category') || e.target.classList.contains('js-filter-german') || e.target.id === 'filter-age' || e.target.id === 'filter-gender')) {
+                if (e.target && (e.target.classList.contains('js-filter-category') || e.target.classList.contains('js-filter-german') || e.target.id === 'filter-age' || e.target.id === 'filter-gender' || e.target.id === 'filter-profile-status')) {
                     scheduleLoad(true);
                 }
             });
@@ -971,6 +1090,7 @@ Danh sách ứng viên
             });
             if (filterAge) filterAge.value = '';
             if (filterGender) filterGender.value = '';
+            if (filterProfileStatus) filterProfileStatus.value = '';
             scheduleLoad(true);
         });
 
@@ -982,6 +1102,8 @@ Danh sách ứng viên
             if (!isNaN(p)) {
                 currentPage = p;
                 loadCandidates(p);
+                var top = (filterWrap || grid);
+                if (top) top.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
 
@@ -1048,6 +1170,16 @@ Danh sách ứng viên
                             <option value="">Alle</option>
                             <option value="1">männlich</option>
                             <option value="2">weiblich</option>
+                        </select>
+                    </div>
+                    <div class="filter-block">
+                        <span class="filter-block-label">Profilstatus</span>
+                        <select id="filter-profile-status" name="profile_status" class="filter-select" aria-label="Filter Profilstatus">
+                            <option value="">Alle</option>
+                            <option value="1">🟡 Lernt Deutsch</option>
+                            <option value="2">🟡 Wartet auf Dokumente</option>
+                            <option value="3">🟢 Bereit für Gespräche</option>
+                            <option value="4">🔴 Bereits im Visaverfahren</option>
                         </select>
                     </div>
                 </div>

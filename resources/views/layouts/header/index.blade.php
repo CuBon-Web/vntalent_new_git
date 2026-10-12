@@ -72,7 +72,7 @@
                      </li>
                     
                      <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Du học nghề Đức</a>
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Dịch vụ</a>
                         <ul class="dropdown-menu fade-down">
                            @foreach ($servicehome as $item)
                            <li><a class="dropdown-item" href="{{route('serviceCateList',['slug'=>$item->slug])}}">{{$item->name}}</a></li>

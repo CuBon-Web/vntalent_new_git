@@ -92,7 +92,7 @@ Liên hệ với chúng tôi
                           </div>
                           <div class="content">
                               <h5>Facebook</h5>
-                              <a href="{{$setting->facebook}}" target="_blank">{{$setting->facebook}}</a>
+                              <a href="{{$setting->facebook}}" target="_blank">VnTalentHub</a>
                           </div>
                       </div>
                   </div>
