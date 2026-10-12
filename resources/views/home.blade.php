@@ -287,7 +287,7 @@
          <div class="row">
             <div class="col-lg-6 mx-auto">
                <div class="site-heading text-center wow fadeInDown" data-wow-delay=".25s">
-                  <h2 class="site-title">Video<span> Đánh Giá Học Viên</span></h2>
+                  <h2 class="site-title">Review <span>Học Viên</span></h2>
                   <p>Nhấn vào từng video để nghe chia sẻ thực tế từ học viên đã đồng hành cùng VNTALENTHUB.</p>
                   <div class="heading-divider"></div>
                </div>
