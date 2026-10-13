@@ -25694,6 +25694,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -336744,6 +336748,26 @@ var render = function() {
                         _vm.$set(_vm.objData, "iframe_map", $$v)
                       },
                       expression: "objData.iframe_map"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  _c("label", [_vm._v("Ảnh trang liên hệ")]),
+                  _vm._v(" "),
+                  _c("image-upload", {
+                    attrs: { type: "avatar", title: "image" },
+                    model: {
+                      value: _vm.objData.fax,
+                      callback: function($$v) {
+                        _vm.$set(_vm.objData, "fax", $$v)
+                      },
+                      expression: "objData.fax"
                     }
                   })
                 ],

@@ -96,6 +96,10 @@
                   />
                 </div>
                 <div class="form-group">
+                  <label>Ảnh trang liên hệ</label>
+                  <image-upload type="avatar" v-model="objData.fax" :title="'image'"></image-upload>
+                </div>
+                <div class="form-group">
                   <label>Favicon</label>
                   <image-upload type="avatar" v-model="objData.favicon" :title="'favicon'"></image-upload>
                 </div>

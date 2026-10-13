@@ -102,7 +102,7 @@ Liên hệ với chúng tôi
               <div class="row g-4">
                   <div class="col-lg-5">
                       <div class="contact-img">
-                          <img src="{{url('frontend/img/contact.jpg')}}" alt="Liên hệ {{$setting->company ?? config('app.name')}}" loading="lazy">
+                          <img src="{{url($setting->fax)}}" alt="Liên hệ {{$setting->company ?? config('app.name')}}" loading="lazy">
                       </div>
                   </div>
                   <div class="col-lg-7">
