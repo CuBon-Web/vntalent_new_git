@@ -955,7 +955,6 @@ Danh sách ứng viên
             html += detailMetaItem('fas fa-language', 'Deutschkenntnisse', level);
             html += detailMetaItem('fas fa-venus-mars', 'Geschlecht', escapeHtml(gen));
             html += detailMetaItem('fas fa-hourglass-half', 'Alter', age);
-            html += detailMetaItem('far fa-calendar', 'Geburtsdatum', birth);
             html += '</ul>';
             html += '<button type="button" class="btn-view-more js-open-candidate-modal" data-bs-toggle="modal" data-bs-target="#candidateModal' + id + '">Profil anschauen</button>';
             html += '</div></div></div>';
@@ -965,8 +964,8 @@ Danh sách ứng viên
             html += '<div class="modal-header"><h5 class="modal-title">' + name + '</h5>';
             html += '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>';
             html += '<div class="modal-body"><div class="row g-3 align-items-start">';
-            html += '<div class="col-md-4"><img class="modal-img" src="' + avatar + '" alt="' + name + '"></div>';
-            html += '<div class="col-md-8">' + statusBadge + '<ul class="modal-meta">';
+            html += '<div class="col-md-4"><img class="modal-img mb-2" src="' + avatar + '" alt="' + name + '">'+ statusBadge +'</div>';
+            html += '<div class="col-md-8"> <ul class="modal-meta">';
             html += detailMetaItem('fas fa-venus-mars', 'Geschlecht', escapeHtml(gen));
             html += detailMetaItem('fas fa-hourglass-half', 'Alter', age);
             html += detailMetaItem('far fa-calendar', 'Geburtsdatum', birth);
