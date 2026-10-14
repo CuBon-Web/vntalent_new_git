@@ -235,12 +235,10 @@
                   <h2 class="site-title text-white">{{ $homeServiceSetting->title }}</h2>
                </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                @if($homeServiceSetting->description)
                <p class="text-white">{!! nl2br(e($homeServiceSetting->description)) !!}</p>
                @endif
-            </div>
-            <div class="col-lg-2">
                @if($homeServiceSetting->button_text)
                <a href="{{ $homeServiceSetting->button_link ?: '#' }}" class="theme-btn">{{ $homeServiceSetting->button_text }}<i class="fas fa-arrow-right"></i></a>
                @endif
