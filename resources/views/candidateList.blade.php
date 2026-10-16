@@ -1145,9 +1145,9 @@ Danh sách ứng viên
                         </select>
                     </div>
                     <div class="filter-block">
-                        <span class="filter-block-label">Alter</span>
+                        <span class="filter-block-label">Altersgruppe</span>
                         <select id="filter-age" name="age_range" class="filter-select">
-                            <option value="">Alle Altersgruppen</option>
+                            <option value="">Alle</option>
                             <option value="18-22">18–22</option>
                             <option value="23-27">23–27</option>
                             <option value="28-32">28–32</option>
